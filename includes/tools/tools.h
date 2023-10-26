@@ -13,6 +13,8 @@ void waitForEnter();
 
 int askYesOrNo(char *Question);
 
+void printLine(char ch, int num);
+
 int getStringLength(char *str);
 
 #endif //UEB01_TOOLS_H

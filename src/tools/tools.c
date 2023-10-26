@@ -54,3 +54,23 @@ int askYesOrNo(char *Question)
     } while ((Input != 'j') && (Input != 'J') && (Input != 'n') && (Input != 'N'));
     return ((Input == 'j') || (Input == 'J'));
 }
+
+
+void printLine(char ch, int len){
+    for(int i = 0; i < len; i++)
+        printf("%c", ch);
+    printf("\n");
+}
+
+int getStringLength(char* str){
+    int count = 0;
+    while(*str) {
+        count += 1;
+        str += 1;
+    }
+
+    return count;
+}
+
+
+
