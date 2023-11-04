@@ -6,6 +6,8 @@
 #include "../../includes/tools/tools.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include "../../includes/tools/escapesequenzen.h"
 
 /**********************************************************
  *
@@ -72,5 +74,59 @@ int getStringLength(char* str){
     return count;
 }
 
+int getText(char* prompt, int maxLength, char** destination, int allowEmpty){
+     int scanned;
+     int len;
+     int result = 0;
+     char *input = NULL;
+     char format[15];
 
+     if(destination == NULL)
+         return 0;
+
+     if(maxLength <= 0)
+         return 0;
+
+     input =  malloc(maxLength * sizeof(char) );
+     if(input == NULL)
+         return 0;
+
+     *destination = NULL;
+     sprintf(format, "%%%ds", maxLength);
+
+     SAVE_POSITION;
+     do {
+         RESTORE_POSITION;
+         CLEAR_BELOW;
+         printf("%s ", prompt);
+
+         scanned = scanf(format, input);
+         printf("%s\n", input);
+         clearBuffer();
+
+         if(scanned){
+             len = strlen(input);
+             if(len > 0) {
+                 *destination = calloc(len + 1, sizeof(char));
+                 if(*destination){
+                     strcpy(*destination, input);
+                     result = 1;
+                 }
+             } else {
+                 if(allowEmpty)
+                     result = 1;
+                 else
+                     scanned = 0;
+             }
+         } else {
+             if(allowEmpty) {
+                 result = 1;
+                 scanned = 1;
+             }
+         }
+     } while(!scanned);
+
+     free(input);
+     return result;
+}
 

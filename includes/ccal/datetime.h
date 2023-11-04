@@ -34,6 +34,9 @@ int isLeapYear(int year);
 int isDateValid(sDate* date);
 
 
+int isTimeValid(sTime* time);
+
+
 /*******************************************
  * Die Funktion konvertiert die gegebene Zeichenkette in
  * eine POSITIVE Zahl, die dann zurueckgibt.
@@ -44,7 +47,7 @@ int isDateValid(sDate* date);
  * output : die in str representierende POSITIVE Nummer
  *          -1 , falls in str keine POSITIVE Zahl dargestellt wird.
  * *****************************************/
-int stringToInt(char* str);
+int strToInt(char* str);
 
 
 /*******************************************
@@ -59,7 +62,7 @@ int stringToInt(char* str);
  *
  * output : Pointer auf den naechsten Zeichen in str oder auf '\0'.
  * *****************************************/
-char* getSubstring(char* str, char* dest);
+char* getSubstring(char* str, char* dest, char separator);
 
 
 /*******************************************
@@ -76,5 +79,11 @@ char* getSubstring(char* str, char* dest);
  *          0 , wenn nicht
  * *****************************************/
 int getDateFromString(char* input, sDate* date);
+
+int getTimeFromString(char* input, sTime* time);
+
+int getDate(char* prompt, sDate* date);
+
+int getTime(char* prompt, sTime* time);
 
 #endif //CCAL_DATETIME_H

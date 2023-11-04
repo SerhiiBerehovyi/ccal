@@ -2,12 +2,14 @@
 // Created by Serhii Berehovyi on 20.10.23.
 //
 
-
+#include <stdio.h>
 #include "../../includes/ccal/datetime.h"
 
 int isLeapYear(int year) {
     return ( !(year % 4) && (year % 100) || !(year % 400) );
 }
+
+
 int isDateValid(sDate* date) {
     if (date->Year > 2099 || date->Year < 1900)
         return 0;
@@ -33,6 +35,20 @@ int isDateValid(sDate* date) {
 }
 
 
+int isTimeValid(sTime* time) {
+    if(time->Hours > 24 || time->Hours < 0)
+        return 0;
+
+    if(time->Minutes > 59 || time->Minutes < 0)
+        return 0;
+
+    if(time->Seconds > 59 || time->Seconds < 0)
+        return 0;
+
+    return 1;
+}
+
+
 int strToInt(char* str){
     int result = 0;
 
@@ -47,31 +63,76 @@ int strToInt(char* str){
     return result;
 }
 
-char* getSubstring(char* str, char* dest){
-    while(*str && *str != '.'){
+char* getSubstring(char* str, char* dest, char separator){
+    while(*str && *str != separator){
         *dest = *str;
         dest++;
         str++;
     }
     *dest = '\0';
-    if (*str)
+    if (*str) {
         str++;
-    return str;
+        return str;
+    }
+    return NULL;
 }
 
 int getDateFromString(char* input, sDate* date){
-    char day[100], month[100], year[100];
+    char day[20], month[20], year[20];
     char* tmp = input;
 
-    tmp = getSubstring(tmp, day);
-    tmp = getSubstring(tmp, month);
-    tmp = getSubstring(tmp, year);
+    tmp = getSubstring(tmp, day, '.');
+    tmp = getSubstring(tmp, month, '.');
+    tmp = getSubstring(tmp, year, '.');
 
     date->Day = strToInt(day);
     date->Month = strToInt(month);
     date->Year = strToInt(year);
 
-    if (isDateValid(date))
+    if (isDateValid(date)) {
+        // Den Tag finden
+        int d = date->Day;
+        int m = (date->Month == 2) ? 12 : (date->Month - 2) % 12;
+        int c = (int) date->Year / 100;
+        int y = date->Year % 100;
+
+        int w = ((int) (d + (int) (2.6 * (double) m - 0.2) +
+                y +(int) ((double) y/4) + (int) ((double) c / 4) - 2 * c)) % 7;
+
+        date->weekDay =  (w == 0) ? 7 : w ;
+
         return 1;
+    }
+
     return 0;
+}
+
+
+int getTimeFromString(char* input, sTime* time){
+    char hours[20], minutes[20], seconds[20];
+    char* tmp = input;
+
+    tmp = getSubstring(tmp, hours, ':');
+    tmp = getSubstring(tmp, minutes, ':');
+    tmp = getSubstring(tmp, seconds, ':');
+
+    time->Hours = strToInt(hours);
+    time->Minutes = strToInt(minutes);
+    time->Seconds = strToInt(seconds);
+
+    if(isTimeValid(time)) {
+        return 1;
+    }
+
+    return 0;
+}
+
+// TODO: getDate()
+int getDate(char* prompt, sDate* date){
+    return 0;
+}
+
+// TODO: getTime()
+int getTime(char* prompt, sTime* time){
+
 }

@@ -17,4 +17,6 @@ void printLine(char ch, int num);
 
 int getStringLength(char *str);
 
+int getText(char* prompt, int maxLength, char** destination, int blank);
+
 #endif //UEB01_TOOLS_H
