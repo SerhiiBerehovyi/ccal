@@ -105,7 +105,7 @@ int getText(char* prompt, int maxLength, char** destination, int allowEmpty){
          clearBuffer();
 
          if(scanned){
-             len = strlen(input);
+             len = (int) strlen(input);
              if(len > 0) {
                  *destination = calloc(len + 1, sizeof(char));
                  if(*destination){

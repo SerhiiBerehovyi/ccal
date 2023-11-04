@@ -82,8 +82,8 @@ int getDateFromString(char* input, sDate* date);
 
 int getTimeFromString(char* input, sTime* time);
 
-int getDate(char* prompt, sDate* date);
+void getDate(char* prompt, sDate* date);
 
-int getTime(char* prompt, sTime* time);
+void getTime(char* prompt, sTime* time);
 
 #endif //CCAL_DATETIME_H

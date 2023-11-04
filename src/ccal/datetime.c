@@ -4,6 +4,8 @@
 
 #include <stdio.h>
 #include "../../includes/ccal/datetime.h"
+#include "../../includes/tools/escapesequenzen.h"
+#include "../../includes/tools/tools.h"
 
 int isLeapYear(int year) {
     return ( !(year % 4) && (year % 100) || !(year % 400) );
@@ -127,12 +129,46 @@ int getTimeFromString(char* input, sTime* time){
     return 0;
 }
 
-// TODO: getDate()
-int getDate(char* prompt, sDate* date){
-    return 0;
+
+void getDate(char* prompt, sDate* date){
+    char input[20];
+    int scanned;
+
+    SAVE_POSITION;
+    do {
+        RESTORE_POSITION;
+        CLEAR_BELOW;
+        printf("%s: ", prompt);
+        *input = '\0';
+
+        scanned = scanf("%19[^\n]", input);
+        clearBuffer();
+
+        if (scanned) {
+            if (getDateFromString(input, date))
+                return;
+       }
+    } while(1);
 }
 
-// TODO: getTime()
-int getTime(char* prompt, sTime* time){
 
+void getTime(char* prompt, sTime* time){
+     char input[20];
+     int scanned;
+
+     SAVE_POSITION;
+     do {
+         RESTORE_POSITION;
+         CLEAR_BELOW;
+         printf("%s: ", prompt);
+         *input = '\0';
+
+         scanned = scanf("%19[^\n]", input);
+         clearBuffer();
+
+         if (scanned){
+             if (getTimeFromString(input, time))
+                 return;
+         }
+     }while(1);
 }
