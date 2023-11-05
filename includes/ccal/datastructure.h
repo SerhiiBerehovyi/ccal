@@ -19,12 +19,12 @@ typedef struct {
 } sDate;
 
 typedef struct {
-    int Hours, Minutes, Seconds;
+    int Hours, Minutes;
 } sTime;
 
 typedef struct {
     sDate Date;
-    sTime TimeStart, TimeEnd;
+    sTime TimeStart, Duration;
     char* Notes;
 } sAppointment;
 

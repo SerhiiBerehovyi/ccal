@@ -3,9 +3,14 @@
 //
 
 #include <stdio.h>
+#include <stdlib.h>
 #include "../../includes/ccal/datetime.h"
 #include "../../includes/tools/escapesequenzen.h"
 #include "../../includes/tools/tools.h"
+
+int countAppointment = 0;
+sAppointment Calendar[MAXAPPOINTMENTS];
+
 
 int isLeapYear(int year) {
     return ( !(year % 4) && (year % 100) || !(year % 400) );
@@ -42,9 +47,6 @@ int isTimeValid(sTime* time) {
         return 0;
 
     if(time->Minutes > 59 || time->Minutes < 0)
-        return 0;
-
-    if(time->Seconds > 59 || time->Seconds < 0)
         return 0;
 
     return 1;
@@ -120,7 +122,6 @@ int getTimeFromString(char* input, sTime* time){
 
     time->Hours = strToInt(hours);
     time->Minutes = strToInt(minutes);
-    time->Seconds = strToInt(seconds);
 
     if(isTimeValid(time)) {
         return 1;
@@ -170,5 +171,18 @@ void getTime(char* prompt, sTime* time){
              if (getTimeFromString(input, time))
                  return;
          }
+
+         if (*input == '\n'){
+             time = NULL;
+             return;
+         }
      }while(1);
+}
+
+void free_all(sAppointment* appointments){
+    while(appointments != NULL){
+        free(appointments->Notes);
+        free(appointments);
+        appointments++;
+    }
 }

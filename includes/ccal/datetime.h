@@ -86,4 +86,6 @@ void getDate(char* prompt, sDate* date);
 
 void getTime(char* prompt, sTime* time);
 
+void free_all(sAppointment* appointments);
+
 #endif //CCAL_DATETIME_H

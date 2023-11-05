@@ -7,25 +7,30 @@
 
 
 void createAppointment(){
-    printf("TODO: createAppointment\n");
+
 }
 
 void editAppointment(){
+    // TODO: function
     printf("TODO: editAppointment\n");
 }
 
 void deleteAppointment(){
+    // TODO: function
     printf("TODO: deleteAppointment\n");
 }
 
 void searchAppointment(){
+    // TODO: function
     printf("TODO: searchAppointment\n");
 }
 
 void sortCalendar(){
+    // TODO: function
     printf("TODO: sortCalendar\n");
 }
 
 void listCalendar(){
+    // TODO: function
     printf("TODO: listCalendar\n");
 }
