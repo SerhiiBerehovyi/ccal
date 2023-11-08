@@ -24,8 +24,10 @@ typedef struct {
 
 typedef struct {
     sDate Date;
-    sTime TimeStart, Duration;
+    sTime TimeStart;
+    sTime* Duration;
     char* Notes;
+    char* Location;
 } sAppointment;
 
 

@@ -98,10 +98,9 @@ int getText(char* prompt, int maxLength, char** destination, int allowEmpty){
      do {
          RESTORE_POSITION;
          CLEAR_BELOW;
-         printf("%s ", prompt);
+         printf("%s: ", prompt);
 
          scanned = scanf(format, input);
-         printf("%s\n", input);
          clearBuffer();
 
          if(scanned){
@@ -130,3 +129,12 @@ int getText(char* prompt, int maxLength, char** destination, int allowEmpty){
      return result;
 }
 
+void printWithEllipsis(char* str, int maxLength){
+    if(strlen(str) > maxLength){
+        char format[20];
+        sprintf(format, "%%.%ds ...", maxLength - 4); // space + ... = 4
+        printf(format, str);
+    } else {
+        printf("%s", str);
+    }
+}

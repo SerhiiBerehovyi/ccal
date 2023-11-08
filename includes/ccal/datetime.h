@@ -20,7 +20,6 @@
  * *****************************************/
 int isLeapYear(int year);
 
-
 /*******************************************
  * Die Funktion testet, ob in sDate gespeichertes Datum
  * gueltig ist. Schaltjahre werden auch beruecksichtigt.
@@ -33,9 +32,7 @@ int isLeapYear(int year);
  * *****************************************/
 int isDateValid(sDate* date);
 
-
 int isTimeValid(sTime* time);
-
 
 /*******************************************
  * Die Funktion konvertiert die gegebene Zeichenkette in
@@ -48,7 +45,6 @@ int isTimeValid(sTime* time);
  *          -1 , falls in str keine POSITIVE Zahl dargestellt wird.
  * *****************************************/
 int strToInt(char* str);
-
 
 /*******************************************
  * Die Funktion liest Substring bis zum naechten '.' oder bis zum Ende
@@ -63,7 +59,6 @@ int strToInt(char* str);
  * output : Pointer auf den naechsten Zeichen in str oder auf '\0'.
  * *****************************************/
 char* getSubstring(char* str, char* dest, char separator);
-
 
 /*******************************************
  * Die Funktion liest die Zeichenkette aus input und prueft
@@ -82,10 +77,16 @@ int getDateFromString(char* input, sDate* date);
 
 int getTimeFromString(char* input, sTime* time);
 
-void getDate(char* prompt, sDate* date);
+int getDate(char* prompt, sDate* date);
 
-void getTime(char* prompt, sTime* time);
+int getTime(char* prompt, sTime* time);
 
-void free_all(sAppointment* appointments);
+void printDate(sDate* date, int withDay);
+
+void printTime(sTime* time);
+
+void printAppointment(sAppointment* appointment);
+
+void freeCalendar(sAppointment* appointments);
 
 #endif //CCAL_DATETIME_H

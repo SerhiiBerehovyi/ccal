@@ -8,6 +8,8 @@
 #include "../../includes/tools/tools.h"
 
 int getMenu(char* menuTitle, char* menuItems[], int menuItemsCount) {
+    CLEAR;
+    HOME;
     char input;
 
     clearScreen();

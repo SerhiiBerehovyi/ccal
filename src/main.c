@@ -46,7 +46,7 @@ int main()
                 listCalendar();
                 break;
             default:
-                free_all(Calendar);
+                freeCalendar(Calendar);
                 printf("Programm wird beendet!\n");
         }
         waitForEnter();

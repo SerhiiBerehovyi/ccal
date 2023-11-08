@@ -43,7 +43,7 @@ int isDateValid(sDate* date) {
 
 
 int isTimeValid(sTime* time) {
-    if(time->Hours > 24 || time->Hours < 0)
+    if(time->Hours > 23 || time->Hours < 0)
         return 0;
 
     if(time->Minutes > 59 || time->Minutes < 0)
@@ -54,6 +54,9 @@ int isTimeValid(sTime* time) {
 
 
 int strToInt(char* str){
+    if(!*str)
+        return -1;
+
     int result = 0;
 
     while(*str){
@@ -76,9 +79,8 @@ char* getSubstring(char* str, char* dest, char separator){
     *dest = '\0';
     if (*str) {
         str++;
-        return str;
     }
-    return NULL;
+    return str;
 }
 
 int getDateFromString(char* input, sDate* date){
@@ -118,7 +120,6 @@ int getTimeFromString(char* input, sTime* time){
 
     tmp = getSubstring(tmp, hours, ':');
     tmp = getSubstring(tmp, minutes, ':');
-    tmp = getSubstring(tmp, seconds, ':');
 
     time->Hours = strToInt(hours);
     time->Minutes = strToInt(minutes);
@@ -131,7 +132,7 @@ int getTimeFromString(char* input, sTime* time){
 }
 
 
-void getDate(char* prompt, sDate* date){
+int getDate(char* prompt, sDate* date){
     char input[20];
     int scanned;
 
@@ -147,13 +148,13 @@ void getDate(char* prompt, sDate* date){
 
         if (scanned) {
             if (getDateFromString(input, date))
-                return;
+                return 1;
        }
     } while(1);
 }
 
 
-void getTime(char* prompt, sTime* time){
+int getTime(char* prompt, sTime* time){
      char input[20];
      int scanned;
 
@@ -169,20 +170,65 @@ void getTime(char* prompt, sTime* time){
 
          if (scanned){
              if (getTimeFromString(input, time))
-                 return;
+                 return 1;
          }
 
-         if (*input == '\n'){
-             time = NULL;
-             return;
+         if (*input == '\0'){
+             return 0;
          }
      }while(1);
 }
 
-void free_all(sAppointment* appointments){
-    while(appointments != NULL){
-        free(appointments->Notes);
-        free(appointments);
-        appointments++;
+void printDate(sDate* date, int withDay){
+    if(withDay){
+        switch (date->weekDay) {
+            case NotADay:
+                printf("..., ");
+                break;
+            case Mo:
+                printf("Mo, ");
+                break;
+            case Tu:
+                printf("Tu, ");
+                break;
+            case We:
+                printf("We, ");
+                break;
+            case Th:
+                printf("Th, ");
+                break;
+            case Fr:
+                printf("Fr, ");
+                break;
+            case Sa:
+                printf("Sa, ");
+                break;
+            case Su:
+                printf("Su, ");
+                break;
+        }
+    }
+
+    printf("%02i.%02i.%04i", date->Day, date->Month, date->Year);
+}
+
+void printTime(sTime* time){
+    printf("%02i:%02i", time->Hours, time->Minutes);
+}
+
+void printAppointment(sAppointment* appointment){
+    printTime(&appointment->TimeStart);
+    printf(" -> ");
+    printWithEllipsis(appointment->Location, 20);
+    printf(" | ");
+    printWithEllipsis(appointment->Notes, 48);
+    printf("\n");
+}
+
+void freeCalendar(sAppointment* appointments){
+    for(int i = 0; i < countAppointment; i++){
+        free(appointments[i].Notes);
+        free(appointments[i].Location);
+        free(appointments[i].Duration);
     }
 }
