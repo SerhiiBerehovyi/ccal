@@ -4,6 +4,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "../../includes/ccal/datetime.h"
 #include "../../includes/tools/escapesequenzen.h"
 #include "../../includes/tools/tools.h"
@@ -183,6 +184,8 @@ int getTime(char* prompt, sTime** time, int blank){
          }
 
          if (*input == '\0' && blank){
+             free(*time);
+             *time = NULL;
              return 1;
          }
      }while(1);
@@ -226,11 +229,20 @@ void printTime(sTime* time){
 }
 
 void printAppointment(sAppointment* appointment){
+    int maxLocationLength = 20;
+    int maxNotesLength = 48;
+
     printTime(&appointment->TimeStart);
     printf(" -> ");
-    printWithEllipsis(appointment->Location, 20);
+
+    printWithEllipsis(appointment->Location, maxLocationLength);
+    if(strlen(appointment->Location) < maxLocationLength)
+        RIGHT(maxLocationLength - (int) strlen(appointment->Location));
+
     printf(" | ");
-    printWithEllipsis(appointment->Notes, 48);
+
+    printWithEllipsis(appointment->Notes, maxNotesLength);
+
     printf("\n");
 }
 
@@ -238,6 +250,7 @@ void freeCalendar(){
     for(int i = 0; i < countAppointment; i++){
         free(Calendar[i].Notes);
         free(Calendar[i].Location);
-        free(Calendar[i].Duration);
+        if(Calendar[i].Duration != NULL)
+            free(Calendar[i].Duration);
     }
 }
