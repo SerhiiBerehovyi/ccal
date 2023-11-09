@@ -1,13 +1,9 @@
 
 #include <stdio.h>
-#include <stdlib.h>
-#include "../includes/ccal/datastructure.h"
 #include "../includes/ccal/datetime.h"
 #include "../includes/tools/tools.h"
 #include "../includes/ccal/menu.h"
 #include "../includes/ccal/calendar.h"
-
-void inputDate();
 
 int main()
 {
@@ -46,7 +42,7 @@ int main()
                 listCalendar();
                 break;
             default:
-                freeCalendar(Calendar);
+                freeCalendar();
                 printf("Programm wird beendet!\n");
         }
         waitForEnter();

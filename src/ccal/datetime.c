@@ -132,7 +132,7 @@ int getTimeFromString(char* input, sTime* time){
 }
 
 
-int getDate(char* prompt, sDate* date){
+void getDate(char* prompt, sDate* date){
     char input[20];
     int scanned;
 
@@ -148,7 +148,7 @@ int getDate(char* prompt, sDate* date){
 
         if (scanned) {
             if (getDateFromString(input, date))
-                return 1;
+                return;
        }
     } while(1);
 }
@@ -225,10 +225,10 @@ void printAppointment(sAppointment* appointment){
     printf("\n");
 }
 
-void freeCalendar(sAppointment* appointments){
+void freeCalendar(){
     for(int i = 0; i < countAppointment; i++){
-        free(appointments[i].Notes);
-        free(appointments[i].Location);
-        free(appointments[i].Duration);
+        free(Calendar[i].Notes);
+        free(Calendar[i].Location);
+        free(Calendar[i].Duration);
     }
 }

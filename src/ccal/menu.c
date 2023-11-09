@@ -12,7 +12,6 @@ int getMenu(char* menuTitle, char* menuItems[], int menuItemsCount) {
     HOME;
     char input;
 
-    clearScreen();
     printf("\n%s\n", menuTitle);
     printLine('=', getStringLength(menuTitle));
     printf("\n");

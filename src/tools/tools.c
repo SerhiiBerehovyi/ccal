@@ -9,18 +9,7 @@
 #include <string.h>
 #include "../../includes/tools/escapesequenzen.h"
 
-/**********************************************************
- *
- **********************************************************/
-void clearScreen()
-{
-    system("clear"); // Linux / angebissenes Obst
-    // system("CLS");   // Windows
-}
 
-/**********************************************************
- *
- **********************************************************/
 void clearBuffer()
 {
     char Dummy;
@@ -31,18 +20,12 @@ void clearBuffer()
     } while (Dummy != '\n');
 }
 
-/**********************************************************
- *
- **********************************************************/
 void waitForEnter()
 {
     printf("\nBitte Eingabetaste druecken ...");
     clearBuffer();
 }
 
-/**********************************************************
- *
- **********************************************************/
 int askYesOrNo(char *Question)
 {
     char Input;
@@ -64,7 +47,7 @@ void printLine(char ch, int len){
     printf("\n");
 }
 
-int getStringLength(char* str){
+int getStringLength(const char* str){
     int count = 0;
     while(*str) {
         count += 1;
