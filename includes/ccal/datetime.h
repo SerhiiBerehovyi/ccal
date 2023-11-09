@@ -118,10 +118,13 @@ void getDate(char* prompt, sDate* date);
  *                          auf den Bildschirm ausgegeben werden muss.
  *          sTime* time:    ein Zeiger auf ein Stime Objekt, in dem die
  *                          gueltige Uhrzeit gespechert werden muss.
+ *          int blank:      darf die Uhrzeit leerbleiben?
+ *                          0, falls nicht,
+ *                          1, falls ja.
  * output:  1, wenn die gueltige Uhrzeit eingegeben wurde und
- *          0, wenn User einfach Eingabetaste drueckt, ohne was einzugeben.
+ *          0, time == NULL ist oder Fehler bei malloc() vorkommt.
  * ***************************************************************************/
-int getTime(char* prompt, sTime* time);
+ int getTime(char* prompt, sTime** time, int blank);
 
 /******************************************************************************
  * Die Funktion gibt das Datum mithilfe von einfachen printf() auf

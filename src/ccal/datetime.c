@@ -154,9 +154,18 @@ void getDate(char* prompt, sDate* date){
 }
 
 
-int getTime(char* prompt, sTime* time){
+int getTime(char* prompt, sTime** time, int blank){
      char input[20];
      int scanned;
+
+     if(time == NULL)
+         return 0;
+
+     if(*time == NULL) {
+         *time = malloc(sizeof(sTime));
+         if(*time == NULL)
+             return 0;
+     }
 
      SAVE_POSITION;
      do {
@@ -169,12 +178,12 @@ int getTime(char* prompt, sTime* time){
          clearBuffer();
 
          if (scanned){
-             if (getTimeFromString(input, time))
+             if (getTimeFromString(input, *time))
                  return 1;
          }
 
-         if (*input == '\0'){
-             return 0;
+         if (*input == '\0' && blank){
+             return 1;
          }
      }while(1);
 }

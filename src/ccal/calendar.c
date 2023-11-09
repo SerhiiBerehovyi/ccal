@@ -26,25 +26,12 @@ void createAppointment(){
 
     getDate("Datum         ", &newAppointment->Date);
 
-    SAVE_POSITION;
-    int result;
-    do{
-        RESTORE_POSITION;
-        CLEAR_BELOW;
-        result = getTime("Uhrzeit       ", &newAppointment->TimeStart);
-    } while(!result);
+    sTime* timeStart =  &newAppointment->TimeStart;
+    getTime("Uhrzeit       ", &timeStart, 0);
 
     getText("Beschreibung  ", 100, &newAppointment->Notes, 0);
     getText("Ort           ", 301, &newAppointment->Location, 0);
-
-    result = 0;
-    result = getTime("Dauer         ", duration);
-
-    if (result){
-        newAppointment->Duration = duration;
-    } else {
-        free(duration);
-    }
+    getTime("Dauer         ", &newAppointment->Duration, 1);
 
     printf("Termin wurde gespeichert!\n\n");
 
