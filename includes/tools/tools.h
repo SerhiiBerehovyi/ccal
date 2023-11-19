@@ -15,4 +15,6 @@ int askYesOrNo(char *Question);
 
 int getStringLength(char *str);
 
+int printLine(char pencil, int count);
+
 #endif //UEB01_TOOLS_H

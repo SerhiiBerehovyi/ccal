@@ -2,8 +2,8 @@
 // Created by Serhii Berehovyi on 20.10.23.
 //
 
-
 #include "../../includes/ccal/datetime.h"
+
 
 int isLeapYear(int year) {
     return ( !(year % 4) && (year % 100) || !(year % 400) );
@@ -75,3 +75,4 @@ int getDateFromString(char* input, sDate* date){
         return 1;
     return 0;
 }
+

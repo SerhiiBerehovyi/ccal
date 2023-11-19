@@ -54,3 +54,19 @@ int askYesOrNo(char *Question)
     } while ((Input != 'j') && (Input != 'J') && (Input != 'n') && (Input != 'N'));
     return ((Input == 'j') || (Input == 'J'));
 }
+
+/**********************************************************
+ *
+ **********************************************************/
+
+int printLine(char pencil, int count) {
+    int i;
+
+    for (i = 0; i < count; i++)
+    {
+        printf("%c", pencil);
+    }
+
+    printf("\n");
+}
+
