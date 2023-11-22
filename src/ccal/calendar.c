@@ -16,7 +16,7 @@ sAppointment Calendar[MAXAPPOINTMENTS];
 void createAppointment(void)
 {
     sTime* pStart = &Calendar[countAppointments].StartTime;
-    sTime* pEnd = malloc(sizeof(sTime));
+    sTime* pDuration = malloc(sizeof(sTime));
 
     HOME; CLEAR;
     printf("Neuen Termin erstellen\n\n");
@@ -25,7 +25,7 @@ void createAppointment(void)
     getTime("Beginn       : ", &pStart, 1); CLEAR_BELOW;
     getText("Beschreibung : ", 100, &Calendar[countAppointments].Description, 1); CLEAR_BELOW;
     getText("Ort          : ", 15, &Calendar[countAppointments].Location, 0); CLEAR_BELOW;
-    getTime("Ende         : ", &pEnd, 0); CLEAR_BELOW;
+    getTime("Dauer        : ", &pDuration, 0); CLEAR_BELOW;
 
     countAppointments++;
 }

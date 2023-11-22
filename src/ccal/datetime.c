@@ -9,11 +9,20 @@
 #include "../../includes/tools/escapesequenzen.h"
 
 
-
 int isLeapYear(int year)
 {
     return ( !(year % 4) && (year % 100) || !(year % 400) );
 }
+
+
+enum eDayOfTheWeek getWeekday(sDate* date)
+{
+    if (date->Day > 10)
+        return Su;
+    else
+        return Mo;
+}
+
 
 int isDateValid(sDate* date)
 {
@@ -54,10 +63,10 @@ int isTimeValid(sTime* time)
 
 int getDateFromString(char *input, sDate *date)
 {
-    int     valid       = 0;
-    char    *pDay       = NULL;
-    char    *pMonth     = NULL;
-    char    *pYear      = NULL;
+    int  valid      = 0;
+    char *pDay      = NULL;
+    char *pMonth    = NULL;
+    char *pYear     = NULL;
 
     do
     {
@@ -95,9 +104,10 @@ int getDateFromString(char *input, sDate *date)
     if (valid)
     {
         sDate d;
-        d.Day   =   atoi( pDay );
-        d.Month =   atoi( pMonth );
-        d.Year  =   atoi( pYear );
+        d.Day   = atoi(pDay);
+        d.Month = atoi(pMonth);
+        d.Year  = atoi(pYear);
+        d.WeekDay = getWeekday(&d);
 
         if (isDateValid(&d))
             *date = d;
@@ -107,11 +117,12 @@ int getDateFromString(char *input, sDate *date)
     return valid;
 }
 
+
 int getTimeFromString(char* input, sTime* time)
 {
-    int     valid       = 0;
-    char    *pHour      = NULL;
-    char    *pMinute    = NULL;
+    int  valid       = 0;
+    char *pHour      = NULL;
+    char *pMinute    = NULL;
 
     do
     {
@@ -181,7 +192,7 @@ int getDate(char* prompt, sDate* date)
                 return 1;
             }
         }
-        printf("Bitte Datum im Format dd.mm.yyyy eingeben.\n");
+        printf("Format: dd.mm.yyyy\n");
         RESTORE_POS; CLEAR_LINE;
     }
 }
@@ -226,47 +237,38 @@ int getTime(char* prompt, sTime** time, int required)
                 return 1;
             }
         }
-        printf("Bitte Zeit im Format hh:mm eingeben.\n");
+        printf("Format: hh:mm\n");
         RESTORE_POS; CLEAR_LINE;
     }
 }
 
+
 void printDate(sDate* date)
 {
-    printf("MONTAHG, %.02i.%.02i.%.4i", date->Day, date->Month, date->Year);
+    char* weekday;
+    switch (date->WeekDay) {
+        case Mo:
+            weekday = "Mo"; break;
+        case Di:
+            weekday = "Di"; break;
+        case Mi:
+            weekday = "Mi"; break;
+        case Do:
+            weekday = "Do"; break;
+        case Fr:
+            weekday = "Fr"; break;
+        case Sa:
+            weekday = "Sa"; break;
+        case Su:
+            weekday = "So"; break;
+        case NotADay:
+            weekday = "  "; break;
+    }
+            printf("%s, %.02i.%.02i.%.4i", weekday, date->Day, date->Month, date->Year);
 }
+
 
 void printTime(sTime* time)
 {
     printf("%.02i:%.02i", time->Hour, time->Minute);
-}
-
-
-/// kann weg:
-/********************************************************************
- * Funktion void inputDate(void)
- *   - Benutzer soll ein Datum eingeben.
- *   - Eingabe wird mit Hilfe der Funktion getDateFromString geparst
- *     und geprueft. Bei gueltigem Datum steht dieses in der Datums-
- *     variable Date.
- *   - Ergebnis der Eingabe wird entsprechend angezeigt.
- * Paramater: keine
- * Funktionsergebnis: nichts
- *******************************************************************/
-void inputDate()
-{
-    sDate Date;
-    char Input[20];
-
-    printf("Geben Sie bitte ein gueltiges Datum ein: ");
-    *Input = '\0';
-    scanf("%19[^\n]", Input);
-    clearBuffer();
-
-    if (getDateFromString(Input, &Date))
-        printf("Das Datum %02i.%02i.%04i ist gueltig!\n", Date.Day, Date.Month, Date.Year);
-    else
-        printf("Das eingegebene Datum '%s' ist ungueltig!\n", Input);
-
-    printf("\n");
 }
