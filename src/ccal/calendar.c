@@ -2,6 +2,7 @@
 // Created by Anselm Nehls on 27.10.23.
 //
 #include <stdio.h>
+#include <stdlib.h>
 #include "../../includes/ccal/datastructure.h"
 #include "../../includes/tools/tools.h"
 #include "../../includes/ccal/datetime.h"
@@ -13,65 +14,83 @@ sAppointment Calendar[MAXAPPOINTMENTS];
 
 void createAppointment(void)
 {
-    printf("Todo: Termin erstellen\n");
-    waitForEnter();
+    sTime* pStart = &Calendar[countAppointments].StartTime;
+    sTime* pEnd = malloc(sizeof(sTime));
+
+    printf("Neuen Termin erstellen\n\n");
+
+    getDate("Datum        : ", &Calendar[countAppointments].Date);
+    getTime("Beginn       : ", &pStart, 1);
+    getText("Beschreibung : ", 100, &Calendar[countAppointments].Description, 1);
+    getText("Ort          : ", 15, &Calendar[countAppointments].Location, 0);
+    getTime("Ende         : ", &pEnd, 0);
+
+    countAppointments++;
 }
 
 void editAppointment(void)
 {
-
-    printf("Todo: Termin bearbeiten\n");
+    printf("TODO: Termin bearbeiten\n");
     waitForEnter();
 }
 
 void deleteAppointment(void)
 {
-    printf("Todo: Termin loeschen\n");
+    printf("TODO: Termin loeschen\n");
     waitForEnter();
 }
 
 void searchAppointment(void)
 {
-    printf("Todo: Termin suchen\n");
+    printf("TODO: Termin suchen\n");
     waitForEnter();
 }
 
 void sortCalendar(void)
 {
-    printf("Todo: Kalender sortieren\n");
+    printf("TODO: Kalender sortieren\n");
     waitForEnter();
 }
 
 void listCalendar(void)
 {
-    printf("Todo: Termine auflisten\n");
-    waitForEnter();
+    // TODO - Ausgabe fertigmachen
+    int i;
+    sDate* printedDate = NULL;
+
+    printf("Liste aller Termine\n");
+    printLine('=', 19);
+
+    for (i = 0; i < countAppointments; i++)
+    {
+        printf("\n");
+        printLine('=', 50);
+
+        if (&Calendar[i].Date != printedDate)
+        {
+            printDate(&Calendar[i].Date);
+            printf(":\n");
+            printLine('-', 14);
+        }
+        printf("\t");
+        printTime(&Calendar[i].StartTime);
+        if (Calendar[i].Location)
+            printf(" -> %s\t | ", Calendar[i].Location);
+        else
+            printf("\t\t | ");
+        printf("%s\n", Calendar[i].Description);
+
+        // group by date
+        printedDate = &Calendar[i].Date;
+
+        // TODO alle 15 Termine warten auf Enter
+        //if (i % 15 == 0)
+            //waitForEnter();
+    }
 }
 
-/********************************************************************
- * Funktion void inputDate(void)
- *   - Benutzer soll ein Datum eingeben.
- *   - Eingabe wird mit Hilfe der Funktion getDateFromString geparst
- *     und geprueft. Bei gueltigem Datum steht dieses in der Datums-
- *     variable Date.
- *   - Ergebnis der Eingabe wird entsprechend angezeigt.
- * Paramater: keine
- * Funktionsergebnis: nichts
- *******************************************************************/
-void inputDate()
+void freeAppointment()
 {
-    sDate Date;
-    char Input[20];
-
-    printf("Geben Sie bitte ein gueltiges Datum ein: ");
-    *Input = '\0';
-    scanf("%19[^\n]", Input);
-    clearBuffer();
-
-    if (getDateFromString(Input, &Date))
-        printf("Das Datum %02i.%02i.%04i ist gueltig!\n", Date.Day, Date.Month, Date.Year);
-    else
-        printf("Das eingegebene Datum '%s' ist ungueltig!\n", Input);
-
-    printf("\n");
+    // TODO - free Appointments
+    // im loop alle Appointments dealloc
 }

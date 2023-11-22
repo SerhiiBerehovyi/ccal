@@ -77,4 +77,28 @@ char* getSubstring(char* str, char* dest);
  * *****************************************/
 int getDateFromString(char* input, sDate* date);
 
+
+int getTimeFromString(char* input, sTime* time);
+
+
+/**********************************************************
+ *
+ **********************************************************/
+int getDate(char* prompt, sDate* date);
+
+
+
+int getTime(char* prompt, sTime** time, int required);
+
+
+
+void printDate(sDate* date);
+
+
+
+void printTime(sTime* time);
+
+
+
+
 #endif //CCAL_DATETIME_H

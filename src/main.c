@@ -15,16 +15,16 @@ int main()
     while (1) {
         clearScreen();
 
-        char *menuitems[MENUITEM_MAXNUM];
-        menuitems[1] = "Termin erstellen";
-        menuitems[2] = "Termin bearbeiten";
-        menuitems[3] = "Termin loeschen";
-        menuitems[4] = "Termin suchen";
-        menuitems[5] = "Kalender sortieren";
-        menuitems[6] = "Termine auflisten";
-        menuitems[7] = "Programm beenden";
+        char *menuItems[MENUITEM_MAXNUM];
+        menuItems[1] = "Termin erstellen";
+        menuItems[2] = "Termin bearbeiten";
+        menuItems[3] = "Termin loeschen";
+        menuItems[4] = "Termin suchen";
+        menuItems[5] = "Kalender sortieren";
+        menuItems[6] = "Termine auflisten";
+        menuItems[7] = "Programm beenden";
 
-        int menuChoice = getMenu(menuTitle, menuitems, 7);
+        int menuChoice = getMenu(menuTitle, menuItems, 7);
 
         switch (menuChoice) {
             case 1:

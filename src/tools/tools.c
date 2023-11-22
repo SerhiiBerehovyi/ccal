@@ -6,6 +6,7 @@
 #include "../../includes/tools/tools.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 /**********************************************************
  *
@@ -55,11 +56,8 @@ int askYesOrNo(char *Question)
     return ((Input == 'j') || (Input == 'J'));
 }
 
-/**********************************************************
- *
- **********************************************************/
 
-int printLine(char pencil, int count) {
+void printLine(char pencil, int count) {
     int i;
 
     for (i = 0; i < count; i++)
@@ -70,3 +68,57 @@ int printLine(char pencil, int count) {
     printf("\n");
 }
 
+int getText(char* prompt, int len_max, char** text, int required)
+{
+    // TODO: print maxlen/required in prompt
+
+    // check parameters
+    if (len_max <= 0 || text == NULL)
+        return 0;
+
+    // declarations
+    char* input = NULL;
+    int scanf_ok = 0;
+    int result = 0;
+    unsigned int len_input = 0;
+
+    // allocate memory for input text
+    input = malloc(sizeof(char) * (len_max + 1)); // sizeof eigtl. unnötig, weil char = 1 byte
+    if (input == NULL)
+        return 0;
+
+    // get text
+    do {
+        printf("%s", prompt);
+        scanf_ok = scanf("%s[^\n]", input);
+        clearBuffer();
+
+        if (scanf_ok)
+        {
+            len_input = strlen(input);
+
+            if (len_input > 0)
+            {
+                *text = malloc(sizeof(char) * (len_input + 1)); // * -> text_ptr selbst, nicht ptr auf text_ptr
+                if (text == NULL)
+                    return 0;
+
+                strcpy(*text, input);
+                result = 1;
+            }
+            else if (len_input == 0 && !required)
+            {
+                result = 1;
+            }
+            else
+            {
+                printf("Text darf nicht leer sein.\n");
+                scanf_ok = 0;
+            }
+        }
+    } while (!scanf_ok);
+
+    // housekeeping
+    free(input);
+    return result;
+}

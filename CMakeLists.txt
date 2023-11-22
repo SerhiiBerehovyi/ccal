@@ -12,4 +12,5 @@ add_executable(ccal src/main.c
         src/ccal/calendar.c
         includes/ccal/calendar.h
         src/ccal/menu.c
-        includes/ccal/menu.h)
+        includes/ccal/menu.h
+        includes/tools/escapesequenzen.h)
