@@ -156,30 +156,34 @@ int getTimeFromString(char* input, sTime* time)
     return valid;
 }
 
-// TODO make return int
+
 int getDate(char* prompt, sDate* date)
 {
     if (date == NULL)
-    { return 0; }
+    {
+        return 0;
+    }
 
-    int scan_ok;
-    int date_valid;
-    char input[11]; // 00.00.0000 (=10) + \n (=11)
+    int scanf_ok;
+    char input[11]; // 00.00.0000 + \n = 11
 
-    do {
+    SAVE_POSITION;
+    while(1)
+    {
         printf("%s", prompt);
-        scan_ok = scanf("%10[^\n]", input);
+        scanf_ok = scanf("%10[^\n]", input);
         clearBuffer();
-        date_valid = getDateFromString(input, date);
 
-        if (!date_valid)
+        if (scanf_ok)
         {
-            printf("Keine gueltige Datumseingabe.\n");
-            scan_ok = 0;
+            if (getDateFromString(input, date))
+            {
+                return 1;
+            }
         }
-
-    } while (!scan_ok);
-    return 1;
+        printf("Bitte Datum im Format dd.mm.yyyy eingeben.\n");
+        RESTORE_POS; CLEAR_LINE;
+    }
 }
 
 
@@ -199,6 +203,7 @@ int getTime(char* prompt, sTime** time, int required)
     int scanf_ok;
     char input[6]; // 00:00 + \n = 6
 
+    SAVE_POSITION;
     while(1)
     {
         printf("%s", prompt);
@@ -222,6 +227,7 @@ int getTime(char* prompt, sTime** time, int required)
             }
         }
         printf("Bitte Zeit im Format hh:mm eingeben.\n");
+        RESTORE_POS; CLEAR_LINE;
     }
 }
 

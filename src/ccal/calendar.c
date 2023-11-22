@@ -6,6 +6,7 @@
 #include "../../includes/ccal/datastructure.h"
 #include "../../includes/tools/tools.h"
 #include "../../includes/ccal/datetime.h"
+#include "../../includes/tools/escapesequenzen.h"
 
 
 int countAppointments = 0;
@@ -17,13 +18,14 @@ void createAppointment(void)
     sTime* pStart = &Calendar[countAppointments].StartTime;
     sTime* pEnd = malloc(sizeof(sTime));
 
+    HOME; CLEAR;
     printf("Neuen Termin erstellen\n\n");
 
-    getDate("Datum        : ", &Calendar[countAppointments].Date);
-    getTime("Beginn       : ", &pStart, 1);
-    getText("Beschreibung : ", 100, &Calendar[countAppointments].Description, 1);
-    getText("Ort          : ", 15, &Calendar[countAppointments].Location, 0);
-    getTime("Ende         : ", &pEnd, 0);
+    getDate("Datum        : ", &Calendar[countAppointments].Date); CLEAR_BELOW;
+    getTime("Beginn       : ", &pStart, 1); CLEAR_BELOW;
+    getText("Beschreibung : ", 100, &Calendar[countAppointments].Description, 1); CLEAR_BELOW;
+    getText("Ort          : ", 15, &Calendar[countAppointments].Location, 0); CLEAR_BELOW;
+    getTime("Ende         : ", &pEnd, 0); CLEAR_BELOW;
 
     countAppointments++;
 }
@@ -85,7 +87,7 @@ void listCalendar(void)
 
         // TODO alle 15 Termine warten auf Enter
         //if (i % 15 == 0)
-            //waitForEnter();
+        waitForEnter();
     }
 }
 
