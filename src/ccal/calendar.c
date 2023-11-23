@@ -29,8 +29,8 @@ void createAppointment(){
     sTime* timeStart =  &newAppointment->TimeStart;
     getTime("Uhrzeit       ", &timeStart, 0);
 
-    getText("Beschreibung  ", 100, &newAppointment->Notes, 0);
-    getText("Ort           ", 301, &newAppointment->Location, 0);
+    getText("Beschreibung  ", 200, &newAppointment->Notes, 0);
+    getText("Ort           ", 100, &newAppointment->Location, 1);
     getTime("Dauer         ", &newAppointment->Duration, 1);
 
     printf("Termin wurde gespeichert!\n\n");
@@ -65,6 +65,11 @@ void listCalendar(){
     char* title = "Liste der Termine\n";
     printf("%s", title);
     printLine('=', (int) strlen(title));
+
+    if(!countAppointment)
+    {
+        printf("Sie haben noch keine Termine eingegebn.\n");
+    }
 
     sDate* date = NULL;
     for(int i = 0; i < countAppointment; i++){

@@ -228,16 +228,20 @@ void printTime(sTime* time){
     printf("%02i:%02i", time->Hours, time->Minutes);
 }
 
-void printAppointment(sAppointment* appointment){
+void printAppointment(sAppointment* appointment) {
     int maxLocationLength = 20;
     int maxNotesLength = 48;
 
     printTime(&appointment->TimeStart);
     printf(" -> ");
 
-    printWithEllipsis(appointment->Location, maxLocationLength);
-    if(strlen(appointment->Location) < maxLocationLength)
-        RIGHT(maxLocationLength - (int) strlen(appointment->Location));
+    if (appointment->Location) {
+        printWithEllipsis(appointment->Location, maxLocationLength);
+        if (strlen(appointment->Location) < maxLocationLength)
+            RIGHT(maxLocationLength - (int) strlen(appointment->Location));
+    } else {
+        RIGHT(maxLocationLength);
+    }
 
     printf(" | ");
 

@@ -75,7 +75,7 @@ int getText(char* prompt, int maxLength, char** destination, int allowEmpty){
          return 0;
 
      *destination = NULL;
-     sprintf(format, "%%%ds", maxLength);
+     sprintf(format, "%%%d[^\n]", maxLength);
 
      SAVE_POSITION;
      do {
