@@ -9,6 +9,7 @@
 #define MAXAPPOINTMENTS 100
 #define MENUITEM_MAXLENGTH 50
 #define MENUITEM_MAXNUM 50
+#define LISTITEM_BREAK 15
 
 
 enum eDayOfTheWeek
@@ -35,12 +36,13 @@ typedef struct
 {
     sDate Date;
     sTime StartTime;
-    sTime* EndTime;
+    sTime* Duration;
     char* Description;
     char* Location;
 } sAppointment;
 
 
+extern int errorCode;
 extern int countAppointments;
 extern sAppointment Calendar[];
 

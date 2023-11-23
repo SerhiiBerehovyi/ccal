@@ -4,6 +4,7 @@
 
 
 #include "../../includes/tools/tools.h"
+#include "../../includes/ccal/datastructure.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -73,8 +74,7 @@ int getText(char* prompt, int len_max, char** text, int required)
     // TODO: print maxlen/required in prompt
 
     // check parameters
-    if (len_max <= 0 || text == NULL)
-        return 0;
+    if (len_max <= 0 || text == NULL) { errorCode = 1; return 0; } // TODO split errors
 
     // declarations
     char* input = NULL;
@@ -84,8 +84,7 @@ int getText(char* prompt, int len_max, char** text, int required)
 
     // allocate memory for input text
     input = malloc(sizeof(char) * (len_max + 1)); // sizeof eigtl. unnötig, weil char = 1 byte
-    if (input == NULL)
-        return 0;
+    if (input == NULL) { errorCode = 1; return 0; }
 
     // get text
     do {
@@ -100,8 +99,7 @@ int getText(char* prompt, int len_max, char** text, int required)
             if (len_input > 0)
             {
                 *text = malloc(sizeof(char) * (len_input + 1)); // * -> text_ptr selbst, nicht ptr auf text_ptr
-                if (text == NULL)
-                    return 0;
+                if (text == NULL) { errorCode = 1; return 0; }
 
                 strcpy(*text, input);
                 result = 1;

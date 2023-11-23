@@ -17,6 +17,6 @@ void sortCalendar(void);
 
 void listCalendar(void);
 
-void inputDate();
+void freeAppointments(void);
 
 #endif //CCAL_CALENDAR_H

@@ -1,19 +1,24 @@
 
 #include <stdio.h>
-#include "../includes/ccal/calendar.h"
-#include "../includes/ccal/datastructure.h"
-#include "../includes/ccal/datetime.h"
 #include "../includes/tools/tools.h"
+#include "../includes/tools/escapesequenzen.h"
+#include "../includes/ccal/datastructure.h"
+#include "../includes/ccal/calendar.h"
 #include "../includes/ccal/menu.h"
 
-void inputDate();
 
 int main()
 {
     char menuTitle[MENUITEM_MAXLENGTH] = "Kalenderverwaltung v0.2";
 
-    while (1) {
-        clearScreen();
+    while (1)
+    {
+        clearScreen(); HOME;
+
+        if (errorCode == 1)
+        {
+            printf("Fehler bei Speicherreservierung.\n"); errorCode = 0;
+        }
 
         char *menuItems[MENUITEM_MAXNUM];
         menuItems[1] = "Termin erstellen";
@@ -26,28 +31,22 @@ int main()
 
         int menuChoice = getMenu(menuTitle, menuItems, 7);
 
-        switch (menuChoice) {
+        switch (menuChoice)
+        {
             case 1:
-                createAppointment();
-                break;
+                createAppointment(); break;
             case 2:
-                editAppointment();
-                break;
+                editAppointment(); break;
             case 3:
-                deleteAppointment();
-                break;
+                deleteAppointment(); break;
             case 4:
-                searchAppointment();
-                break;
+                searchAppointment(); break;
             case 5:
-                sortCalendar();
-                break;
+                sortCalendar(); break;
             case 6:
-                listCalendar();
-                break;
+                listCalendar(); break;
             default:
-                return 0;
+                freeAppointments(); return 0;
         }
     }
-    return 0;
 }

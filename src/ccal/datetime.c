@@ -14,9 +14,10 @@ int isLeapYear(int year)
     return ( !(year % 4) && (year % 100) || !(year % 400) );
 }
 
-
+// TODO implement day of the week
 enum eDayOfTheWeek getWeekday(sDate* date)
 {
+    // dummy!
     if (date->Day > 10)
         return Su;
     else
@@ -264,7 +265,7 @@ void printDate(sDate* date)
         case NotADay:
             weekday = "  "; break;
     }
-            printf("%s, %.02i.%.02i.%.4i", weekday, date->Day, date->Month, date->Year);
+    printf("%s, %.02i.%.02i.%.4i", weekday, date->Day, date->Month, date->Year);
 }
 
 
