@@ -19,7 +19,8 @@ int getMenu(char title[MENUITEM_MAXLENGTH], char* menuItems[MENUITEM_MAXNUM], in
         printLine('=', 50);
 
         int i;
-        for (i = 1; i <= numMenuItems; i++) {
+        for (i = 1; i <= numMenuItems; i++)
+        {
             printf("%i. %s\n", i, menuItems[i]);
         }
 
@@ -27,7 +28,10 @@ int getMenu(char title[MENUITEM_MAXLENGTH], char* menuItems[MENUITEM_MAXNUM], in
         int scanf_ok = scanf("%i", &menuChoice);
         clearBuffer();
 
-        if (scanf_ok && (menuChoice > 0 && menuChoice <= numMenuItems)) {
+        printf("\n");
+
+        if (scanf_ok && (menuChoice > 0 && menuChoice <= numMenuItems))
+        {
             valid = 1;
         }
 

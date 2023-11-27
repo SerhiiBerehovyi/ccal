@@ -14,14 +14,28 @@ int isLeapYear(int year)
     return ( !(year % 4) && (year % 100) || !(year % 400) );
 }
 
-// TODO implement day of the week
+
 enum eDayOfTheWeek getWeekday(sDate* date)
 {
-    // dummy!
-    if (date->Day > 10)
-        return Su;
-    else
-        return Mo;
+    int d = date->Day;
+    int m = (date->Month == 2) ? 12 : (date->Month - 2) % 12;
+    int c = (int) date->Year / 100;
+    int y = date->Year % 100;
+
+    int w = ((int) (d + (int) (2.6 * (double) m - 0.2) + y +(int) ((double) y/4) + (int) ((double) c / 4) - 2 * c)) % 7;
+
+    int wd = ((w == 0) ? 7 : w );
+    switch (wd)
+    {
+        case 1: return Mo;
+        case 2: return Di;
+        case 3: return Mi;
+        case 4: return Do;
+        case 5: return Fr;
+        case 6: return Sa;
+        case 7: return So;
+        default: return NotADay;
+    }
 }
 
 
@@ -260,7 +274,7 @@ void printDate(sDate* date)
             weekday = "Fr"; break;
         case Sa:
             weekday = "Sa"; break;
-        case Su:
+        case So:
             weekday = "So"; break;
         case NotADay:
             weekday = "  "; break;

@@ -19,4 +19,6 @@ void listCalendar(void);
 
 void freeAppointments(void);
 
+void closeCalendar(void);
+
 #endif //CCAL_CALENDAR_H

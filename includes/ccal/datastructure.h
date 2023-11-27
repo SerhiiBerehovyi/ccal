@@ -11,11 +11,15 @@
 #define MENUITEM_MAXNUM 50
 #define LISTITEM_BREAK 15
 
+#define LOCATION_MAXLEN 15
+#define DESCRIPTION_MAXLEN 100
+
+#define DATABASE_FILENAME "database.xml"
 
 enum eDayOfTheWeek
 {
     NotADay = 0,
-    Mo, Di, Mi, Do, Fr, Sa, Su
+    Mo, Di, Mi, Do, Fr, Sa, So
 };
 
 
@@ -28,7 +32,7 @@ typedef struct
 
 typedef struct
 {
-    int Hour, Minute, Second;
+    int Hour, Minute;
 } sTime;
 
 

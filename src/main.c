@@ -4,6 +4,7 @@
 #include "../includes/tools/escapesequenzen.h"
 #include "../includes/ccal/datastructure.h"
 #include "../includes/ccal/calendar.h"
+#include "../includes/ccal/database.h"
 #include "../includes/ccal/menu.h"
 
 
@@ -46,7 +47,7 @@ int main()
             case 6:
                 listCalendar(); break;
             default:
-                freeAppointments(); return 0;
+                closeCalendar(); return 0;
         }
     }
 }

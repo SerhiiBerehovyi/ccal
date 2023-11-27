@@ -71,25 +71,22 @@ void printLine(char pencil, int count) {
 
 int getText(char* prompt, int len_max, char** text, int required)
 {
-    // TODO: print maxlen/required in prompt
-
-    // check parameters
     if (len_max <= 0 || text == NULL) { errorCode = 1; return 0; } // TODO split errors
 
-    // declarations
     char* input = NULL;
     int scanf_ok = 0;
     int result = 0;
     unsigned int len_input = 0;
 
-    // allocate memory for input text
+    char scanf_format[15] = {0};
+    sprintf(scanf_format, "%%%i[^\n]", len_max);
+
     input = malloc(sizeof(char) * (len_max + 1)); // sizeof eigtl. unnötig, weil char = 1 byte
     if (input == NULL) { errorCode = 1; return 0; }
 
-    // get text
     do {
         printf("%s", prompt);
-        scanf_ok = scanf("%s[^\n]", input);
+        scanf_ok = scanf(scanf_format, input);
         clearBuffer();
 
         if (scanf_ok)
@@ -104,19 +101,29 @@ int getText(char* prompt, int len_max, char** text, int required)
                 strcpy(*text, input);
                 result = 1;
             }
-            else if (len_input == 0 && !required)
-            {
-                result = 1;
-            }
             else
             {
-                printf("Text darf nicht leer sein.\n");
-                scanf_ok = 0;
+                if (!required)
+                {
+                    result = 1;
+                }
+                else
+                {
+                    printf("Text darf nicht leer sein.\n"); waitForEnter();
+                    scanf_ok = 0;
+                }
+            }
+        }
+        else
+        {
+            if (!required)
+            {
+                result = 1;
+                scanf_ok = 1;
             }
         }
     } while (!scanf_ok);
 
-    // housekeeping
     free(input);
     return result;
 }
