@@ -21,8 +21,7 @@ void createAppointment(void)
     if (countAppointments < MAXAPPOINTMENTS)
     {
         sTime*  pStartTime  = &Calendar[countAppointments].StartTime;
-        sTime*  pDuration   = malloc(sizeof(sTime));
-            if (pDuration == NULL) { errorCode = 1; return; }
+        sTime*  pDuration   = NULL;
 
         HOME; CLEAR;
         printf("Neuen Termin erstellen\n\n");

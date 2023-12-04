@@ -10,15 +10,17 @@
 
 int main()
 {
+    loadCalendar();
+
     char menuTitle[MENUITEM_MAXLENGTH] = "Kalenderverwaltung v0.2";
 
     while (1)
     {
         clearScreen(); HOME;
 
-        if (errorCode == 1)
+        if (errorCode)
         {
-            printf("Fehler bei Speicherreservierung.\n"); errorCode = 0;
+            printf("Es gab irgendeinen Fehler, vermutlich beim Benutzer >:(\n"); errorCode = 0;
         }
 
         char *menuItems[MENUITEM_MAXNUM];

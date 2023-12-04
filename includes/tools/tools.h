@@ -5,9 +5,13 @@
 #ifndef UEB01_TOOLS_H
 #define UEB01_TOOLS_H
 
+#include <stdio.h>
+
 void clearScreen();
 
 void clearBuffer();
+
+void fclearBuffer(FILE*);
 
 void waitForEnter();
 

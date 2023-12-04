@@ -31,6 +31,15 @@ void clearBuffer()
     } while (Dummy != '\n');
 }
 
+void fclearBuffer(FILE *fp)
+{
+    char tmp;
+    do
+    {
+        fscanf(fp, "%c", &tmp);
+    } while (tmp != '\n' && !feof(fp));
+}
+
 /**********************************************************
  *
  **********************************************************/
@@ -71,7 +80,7 @@ void printLine(char pencil, int count) {
 
 int getText(char* prompt, int len_max, char** text, int required)
 {
-    if (len_max <= 0 || text == NULL) { errorCode = 1; return 0; } // TODO split errors
+    if (len_max <= 0 || text == NULL) { errorCode = 1; return 0; } // TODO-opt error handling
 
     char* input = NULL;
     int scanf_ok = 0;
