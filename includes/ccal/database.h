@@ -6,6 +6,7 @@
 #ifndef CCAL_DATABASE_H
 #define CCAL_DATABASE_H
 
+
 int saveCalendar();
 int saveAppointment(FILE *, sAppointment *);
 

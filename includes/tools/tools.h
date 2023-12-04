@@ -2,8 +2,8 @@
 // Created by Serhii Berehovyi on 20.10.23.
 //
 
-#ifndef UEB01_TOOLS_H
-#define UEB01_TOOLS_H
+#ifndef TOOLS_H
+#define TOOLS_H
 
 #include <stdio.h>
 
@@ -30,4 +30,4 @@ void printLine(char pencil, int count);
  **********************************************************/
 int getText(char* prompt, int len_max, char** text, int required);
 
-#endif //UEB01_TOOLS_H
+#endif //TOOLS_H

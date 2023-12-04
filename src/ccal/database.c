@@ -11,6 +11,7 @@
 #include "../../includes/ccal/datetime.h"
 #include "../../includes/tools/tools.h"
 
+
 int saveCalendar()
 {
     int i;
@@ -213,4 +214,3 @@ int loadAppointment(FILE* fp, sAppointment* appointment)
 
     return 1;
 }
-
