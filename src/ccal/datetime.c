@@ -15,7 +15,7 @@ int isLeapYear(int year)
 }
 
 
-enum eDayOfTheWeek getWeekday(sDate* date)
+enum eDayOfTheWeek getWeekday(sDate* date) // TODO - debug this function; returns NotADay for 4.4.01 and 5.4.01 (possibly more)
 {
     int d = date->Day;
     int m = (date->Month == 2) ? 12 : (date->Month - 2) % 12;

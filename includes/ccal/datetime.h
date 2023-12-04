@@ -34,6 +34,8 @@ int isLeapYear(int year);
 int isDateValid(sDate* date);
 
 
+int isTimeValid(sTime* time);
+
 /*******************************************
  * Die Funktion konvertiert die gegebene Zeichenkette in
  * eine POSITIVE Zahl, die dann zurueckgibt.

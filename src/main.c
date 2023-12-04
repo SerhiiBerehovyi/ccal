@@ -16,11 +16,40 @@ int main()
 
     while (1)
     {
-        clearScreen(); HOME;
+        clearScreen();
+        HOME;
 
         if (errorCode)
         {
-            printf("Es gab irgendeinen Fehler, vermutlich beim Benutzer >:(\n"); errorCode = 0;
+            switch (errorCode)
+            {
+                case 1:
+                {
+                    printf("Ein undefinierter Fehler ist aufgetreten :(\n");
+                    break;
+                }
+                case 2:
+                {
+                    printf("Kalender konnte nicht geladen werden. %s pruefen.\n", DATABASE_FILENAME);
+                    return 2;
+                }
+                case 3:
+                {
+                    printf("Kalender konnte nicht gespeichert werden.\n");
+                    break;
+                }
+                case 4:
+                {
+                    printf("Text konnte nicht eingelesen werden.\n");
+                    break;
+                }
+                default:
+                {
+                    break;
+                }
+            }
+            errorCode = 0;
+            waitForEnter();
         }
 
         char *menuItems[MENUITEM_MAXNUM];

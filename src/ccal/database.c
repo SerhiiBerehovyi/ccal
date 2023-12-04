@@ -18,7 +18,7 @@ int saveCalendar()
     FILE* fp_database = fopen(DATABASE_FILENAME, "wt");
     if (!fp_database)
     {
-        errorCode = 1; // TODO-opt error handling
+        errorCode = 3;
         return 0;
     }
 
@@ -28,7 +28,7 @@ int saveCalendar()
     {
         if (!saveAppointment(fp_database, &Calendar[i]))
         {
-            errorCode = 1; // TODO-opt error handling
+            errorCode = 3;
             return 0;
         }
     }
@@ -59,24 +59,24 @@ int saveAppointment(FILE* fp, sAppointment* appointment)
 }
 
 
-int loadCalendar() // TODO
+int loadCalendar()
 {
     FILE* fp_database = fopen(DATABASE_FILENAME, "rt");
     if (!fp_database)
     {
-        errorCode = 1; // TODO-opt - error handling
+        errorCode = 2;
         return 0;
     }
 
     int found_calendar = 0;
     char input_line[100];
-    char *lp; // line_ptr - Zeilenanfang
+    char *lp; // line_ptr
 
     do
     {
         if (!fscanf(fp_database, "%99[^\n]", input_line))
         {
-            errorCode = 1; // TODO-opt error handling
+            errorCode = 2;
             return 0;
         }
         fclearBuffer(fp_database);
@@ -90,7 +90,7 @@ int loadCalendar() // TODO
         if (strncmp (lp, "<Calendar>", 10) == 0)
         {
             found_calendar = 1;
-            printf("Lade Termine");
+            printf("Lade Termine\n");
         }
 
         if (found_calendar)
@@ -111,22 +111,11 @@ int loadCalendar() // TODO
 
     waitForEnter();
 
-    // loop:
-        // read line
-        // evaluate line
-            // if <Calendar> -> ...?
-            // if <Appointment> ->
-                // call loadAppointment(fp)
-    // check for (end-tags || file end) (sonst Endlosschleife)
-    // close file
     return 1;
 }
 
-// gets fp mit aktueller zeile
-// weiterlesen in while loop
-// abbruch und return bei </Appointment>
-// return
-int loadAppointment(FILE* fp, sAppointment* appointment) // TODO
+
+int loadAppointment(FILE* fp, sAppointment* appointment)
 {
     char input_line[100];
     char *lp;
@@ -137,7 +126,7 @@ int loadAppointment(FILE* fp, sAppointment* appointment) // TODO
     {
         if (!fscanf(fp, "%99[^\n]", input_line))
         {
-            errorCode = 1; // TODO-opt error handling
+            errorCode = 2;
             return 0;
         }
         fclearBuffer(fp);
@@ -155,7 +144,7 @@ int loadAppointment(FILE* fp, sAppointment* appointment) // TODO
             {
                 if (!getDateFromString(lp + 6, &appointment->Date))
                 {
-                    errorCode = 1; // TODO-opt error handling
+                    errorCode = 2;
                     return 0;
                 }
             }
@@ -167,7 +156,7 @@ int loadAppointment(FILE* fp, sAppointment* appointment) // TODO
             {
                 if (!getTimeFromString(lp + 6, &appointment->StartTime))
                 {
-                    errorCode = 1; // TODO-opt error handling
+                    errorCode = 2;
                     return 0;
                 }
             }
@@ -216,9 +205,11 @@ int loadAppointment(FILE* fp, sAppointment* appointment) // TODO
 
     } while (strncmp(lp, "</Appointment>", 13) != 0);
 
-    // TODO - handle empty fields
-    // if appointment->Date == null o.ä -> Abbruch
-    // if non required field null -> set 0
+    if (!isDateValid(&appointment->Date) || !isTimeValid(&appointment->StartTime) || !appointment->Description)
+    {
+        errorCode = 2;
+        return 0;
+    }
 
     return 1;
 }
