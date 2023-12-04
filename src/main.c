@@ -10,9 +10,12 @@
 
 int main()
 {
+    clearScreen();
+    HOME;
+
     loadCalendar();
 
-    char menuTitle[MENUITEM_MAXLENGTH] = "Kalenderverwaltung v0.2";
+    char menuTitle[50] = PRINTED_TITLE;
 
     while (1)
     {
@@ -41,6 +44,11 @@ int main()
                 case 4:
                 {
                     printf("Text konnte nicht eingelesen werden.\n");
+                    break;
+                }
+                case 5:
+                {
+                    printf("%s nicht vorhanden. Programm startet mit leerem Kalender.\n", DATABASE_FILENAME);
                     break;
                 }
                 default:

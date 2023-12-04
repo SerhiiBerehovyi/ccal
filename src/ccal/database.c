@@ -60,27 +60,38 @@ int saveAppointment(FILE* fp, sAppointment* appointment)
 }
 
 
+// TODO - testen : leere tags in xml
+// TODO - testen : falsche tags
+// TODO - evtl. unvollstaendige apptmtns nur auslassen, aber rest trotzdem laden
 int loadCalendar()
 {
     FILE* fp_database = fopen(DATABASE_FILENAME, "rt");
     if (!fp_database)
     {
-        errorCode = 2;
+        errorCode = 5;
         return 0;
     }
 
-    int found_calendar = 0;
-    char input_line[100];
-    char *lp; // line_ptr
+    int foundCalendar = 0;
+    char input_line[100] = { 0 };
+    char *lp;
 
     do
     {
-        if (!fscanf(fp_database, "%99[^\n]", input_line))
+        *input_line = '\0';
+        int scan_ok = fscanf(fp_database, "%99[^\n]", input_line);
+        fclearBuffer(fp_database);
+
+        if (feof(fp_database))
+        {
+            break;
+        }
+
+        if (*input_line == '\0' || !scan_ok)
         {
             errorCode = 2;
             return 0;
         }
-        fclearBuffer(fp_database);
 
         lp = input_line;
         while (*lp == ' ' || *lp == 9) // skip spaces & tabs
@@ -90,11 +101,11 @@ int loadCalendar()
 
         if (strncmp (lp, "<Calendar>", 10) == 0)
         {
-            found_calendar = 1;
-            printf("Lade Termine\n");
+            printf("Lade Termine ");
+            foundCalendar = 1;
         }
 
-        if (found_calendar)
+        if (foundCalendar)
         {
             if (strncmp(lp, "<Appointment>", 13) == 0)
             {
@@ -103,13 +114,9 @@ int loadCalendar()
             }
         }
 
-        if (feof(fp_database))
-        {
-            break;
-        }
-
     } while (strncmp(lp, "</Calendar>", 11) != 0);
 
+    printf("\n");
     waitForEnter();
 
     return 1;
@@ -118,19 +125,25 @@ int loadCalendar()
 
 int loadAppointment(FILE* fp, sAppointment* appointment)
 {
-    char input_line[100];
+    char input_line[100] = { 0 };
     char *lp;
-
-    printf(".");
+    int foundTime = 0;
 
     do
     {
-        if (!fscanf(fp, "%99[^\n]", input_line))
-        {
-            errorCode = 2;
-            return 0;
-        }
+        *input_line = '\0';
+        int scan_ok = fscanf(fp, "%99[^\n]", input_line);
         fclearBuffer(fp);
+
+        if (feof(fp))
+        {
+            break;
+        }
+
+        if (*input_line == '\0' || !scan_ok)
+        {
+            continue;
+        }
 
         lp = input_line;
         while (*lp == ' ' || *lp == 9) // skip spaces & tabs
@@ -161,6 +174,7 @@ int loadAppointment(FILE* fp, sAppointment* appointment)
                     return 0;
                 }
             }
+            foundTime = 1;
         }
         else if (strncmp(lp, "<Description>", 13) == 0)
         {
@@ -199,18 +213,16 @@ int loadAppointment(FILE* fp, sAppointment* appointment)
             }
         }
 
-        if (feof(fp))
-        {
-            break;
-        }
-
     } while (strncmp(lp, "</Appointment>", 13) != 0);
 
-    if (!isDateValid(&appointment->Date) || !isTimeValid(&appointment->StartTime) || !appointment->Description)
+    if (!isDateValid(&appointment->Date)
+    || !isTimeValid(&appointment->StartTime) || !foundTime
+    || !appointment->Description)
     {
         errorCode = 2;
         return 0;
     }
 
+    printf(".");
     return 1;
 }

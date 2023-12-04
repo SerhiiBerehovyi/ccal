@@ -3,6 +3,7 @@
 //
 
 #include <stdio.h>
+#include <string.h>
 #include "../../includes/ccal/datastructure.h"
 #include "../../includes/ccal/menu.h"
 #include "../../includes/tools/tools.h"
@@ -16,7 +17,7 @@ int getMenu(char title[MENUITEM_MAXLENGTH], char* menuItems[MENUITEM_MAXNUM], in
     do {
         clearScreen();
         printf("%s\n", title);
-        printLine('=', 50);
+        printLine('=', (int) strlen(title));
 
         int i;
         for (i = 1; i <= numMenuItems; i++)

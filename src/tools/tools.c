@@ -45,7 +45,7 @@ void fclearBuffer(FILE *fp)
  **********************************************************/
 void waitForEnter()
 {
-    printf("\nBitte Eingabetaste druecken ...");
+    printf("\nBitte Eingabetaste druecken. ");
     clearBuffer();
 }
 

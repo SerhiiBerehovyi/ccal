@@ -132,7 +132,8 @@ void listCalendar(void)
 
             if (Calendar[i].Date.Day != printed_date.Day
                 || Calendar[i].Date.Month != printed_date.Month
-                || Calendar[i].Date.Year != printed_date.Year) {
+                || Calendar[i].Date.Year != printed_date.Year)
+            {
                 print_date = 1;
             }
 
@@ -142,19 +143,22 @@ void listCalendar(void)
             printed_date.Month = Calendar[i].Date.Month;
             printed_date.Year = Calendar[i].Date.Year;
 
-            if ((i != 0) && ((i + 1) % LISTITEM_BREAK == 0)) {
+            if ((i != 0) && ((i + 1) % LISTITEM_BREAK == 0))
+            {
                 waiting = 1;
                 STORE_POS; waitForEnter();
                 RESTORE_POS; CLEAR_BELOW;
             }
         }
-        if (!waiting) {
+        if (!waiting)
+        {
             waitForEnter();
         }
     }
     else
     {
-        printf("Keine Termine im Kalender.\n"); waitForEnter();
+        printf("Keine Termine im Kalender.\n");
+        waitForEnter();
     }
 }
 
@@ -173,18 +177,21 @@ void freeAppointments()
 
 void closeCalendar()
 {
-    if (askYesOrNo("Moechten Sie den Kalender speichern? (j/n) "))
+    if (countAppointments > 0)
     {
-        if (saveCalendar())
+        if (askYesOrNo("Moechten Sie den Kalender speichern? (j/n) "))
         {
-            printf("\nKalender erfolgreich gespeichert.\n");
+            if (saveCalendar())
+            {
+                printf("\nKalender erfolgreich gespeichert.\n");
+            }
+            else
+            {
+                printf("\nKalender konnte nicht gespeichert werden. Bitte nicht an den Support wenden.\n");
+            }
+            waitForEnter();
         }
-        else
-        {
-            printf("\nKalender konnte nicht gespeichert werden. Bitte nicht an den Support wenden.");
-        }
-        waitForEnter();
+        freeAppointments();
     }
-    freeAppointments();
     clearScreen();
 }
