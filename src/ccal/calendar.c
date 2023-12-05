@@ -101,8 +101,14 @@ void printAppointment(sAppointment* appointment, int print_date)
     }
     else
     {
-        printf("\t\t | ");
+        int i;
+        for (i = -4; i < LOCATION_MAXLEN; i++)
+        {
+            printf(" ");
+        }
+        printf(" | ");
     }
+
     if (strlen(appointment->Description) <= 48)
     {
         printf("%s\n", appointment->Description);
@@ -126,13 +132,14 @@ void listCalendar(void)
         printf("Liste aller Termine\n");
         printLine('=', 19);
 
-        for (i = 0; i < countAppointments; i++) {
+        for (i = 0; i < countAppointments; i++)
+        {
             waiting = 0;
             print_date = 0;
 
             if (Calendar[i].Date.Day != printed_date.Day
-                || Calendar[i].Date.Month != printed_date.Month
-                || Calendar[i].Date.Year != printed_date.Year)
+            || Calendar[i].Date.Month != printed_date.Month
+            || Calendar[i].Date.Year != printed_date.Year)
             {
                 print_date = 1;
             }

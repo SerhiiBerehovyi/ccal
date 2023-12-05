@@ -51,6 +51,10 @@ int main()
                     printf("%s nicht vorhanden. Programm startet mit leerem Kalender.\n", DATABASE_FILENAME);
                     break;
                 }
+                case 6:
+                {
+                    printf("Mindestens ein Termin konnte nicht geladen werden. Kalender und %s pruefen.\n", DATABASE_FILENAME);
+                }
                 default:
                 {
                     break;

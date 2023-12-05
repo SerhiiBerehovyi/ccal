@@ -65,7 +65,7 @@ int saveAppointment(FILE* fp, sAppointment* appointment)
 // TODO - evtl. unvollstaendige apptmtns nur auslassen, aber rest trotzdem laden
 int loadCalendar()
 {
-    FILE* fp_database = fopen(DATABASE_FILENAME, "rt");
+    FILE* fp_database = fopen(DATABASE_FILENAME, "rb");
     if (!fp_database)
     {
         errorCode = 5;
@@ -109,8 +109,14 @@ int loadCalendar()
         {
             if (strncmp(lp, "<Appointment>", 13) == 0)
             {
-                loadAppointment(fp_database, &Calendar[countAppointments]);
-                countAppointments++;
+                if (loadAppointment(fp_database, &Calendar[countAppointments]))
+                {
+                    countAppointments++;
+                }
+                else
+                {
+                    errorCode = 6;
+                }
             }
         }
 
@@ -127,7 +133,12 @@ int loadAppointment(FILE* fp, sAppointment* appointment)
 {
     char input_line[100] = { 0 };
     char *lp;
+
+    int foundDate = 0;
     int foundTime = 0;
+    int foundDescription = 0;
+    int foundLocation = 0;
+    int foundDuration = 0;
 
     do
     {
@@ -149,77 +160,121 @@ int loadAppointment(FILE* fp, sAppointment* appointment)
         while (*lp == ' ' || *lp == 9) // skip spaces & tabs
         {
             lp++;
-        };
+        }
+
 
         if (strncmp(lp, "<Date>", 6) == 0)
         {
-            unsigned long len = strlen(lp + 6) - 7;
-            if (strncmp(lp + 6 + len, "</Date>", 7) == 0)
+            if (!foundDate)
             {
-                if (!getDateFromString(lp + 6, &appointment->Date))
+                char* closing_tag = lp + 6;
+                while (*closing_tag != '<')
                 {
-                    errorCode = 2;
-                    return 0;
+                    closing_tag++;
+                }
+
+                if (strncmp(closing_tag, "</Date>", 7) == 0)
+                {
+                    if (!getDateFromString(lp + 6, &appointment->Date))
+                    {
+                        return 0;
+                    }
+                    foundDate = 1;
                 }
             }
         }
         else if (strncmp(lp, "<Time>", 6) == 0)
         {
-            unsigned long len = strlen(lp + 6) - 7;
-            if (strncmp(lp + 6 + len, "</Time>", 7) == 0)
+            if (!foundTime)
             {
-                if (!getTimeFromString(lp + 6, &appointment->StartTime))
+                char* closing_tag = lp + 6;
+                while (*closing_tag != '<')
                 {
-                    errorCode = 2;
-                    return 0;
+                    closing_tag++;
+                }
+
+                if (strncmp(closing_tag, "</Time>", 7) == 0)
+                {
+                    if (!getTimeFromString(lp + 6, &appointment->StartTime))
+                    {
+                        return 0;
+                    }
+                    foundTime = 1;
                 }
             }
-            foundTime = 1;
         }
         else if (strncmp(lp, "<Description>", 13) == 0)
         {
-            unsigned long len = strlen(lp + 13) - 14;
-            if (strncmp(lp + 13 + len, "</Description>", 14) == 0)
+            if (!foundDescription)
             {
-                appointment->Description = calloc(len + 1, sizeof(char));
-                if (appointment->Description)
+                int len = 0;
+                char* closing_tag = lp + 13;
+                while (*closing_tag != '<')
                 {
-                    strncpy(appointment->Description, lp + 13, len);
+                    len++;
+                    closing_tag++;
+                }
+
+                if (len > 0 && (strncmp(closing_tag, "</Description>", 14) == 0))
+                {
+                    appointment->Description = calloc(len + 1, sizeof(char));
+                    if (appointment->Description)
+                    {
+                        strncpy(appointment->Description, lp + 13, len);
+                        foundDescription = 1;
+                    }
                 }
             }
         }
         else if (strncmp(lp, "<Location>", 10) == 0)
         {
-            unsigned long len = strlen(lp + 10) - 11;
-            if (strncmp(lp + 10 + len, "</Location>", 11) == 0)
+            if (!foundLocation)
             {
-                appointment->Location = calloc(len + 1, sizeof(char));
-                if (appointment->Location)
+                int len = 0;
+                char* closing_tag = lp + 10;
+                while (*closing_tag != '<')
                 {
-                    strncpy(appointment->Location, lp + 10, len);
+                    len++;
+                    closing_tag++;
+                }
+
+                if (len > 0 && (strncmp(closing_tag, "</Location>", 11) == 0))
+                {
+                    appointment->Location = calloc(len + 1, sizeof(char));
+                    if (appointment->Location)
+                    {
+                        strncpy(appointment->Location, lp + 10, len);
+                        foundLocation = 1;
+                    }
                 }
             }
         }
         else if (strncmp(lp, "<Duration>", 10) == 0)
         {
-            unsigned long len = strlen(lp + 10) - 11;
-            if (strncmp(lp + 10 + len, "</Duration>", 11) == 0)
+            if (!foundDuration)
             {
-                appointment->Duration = malloc(sizeof(sTime));
-                if (appointment->Duration)
+                char* closing_tag = lp + 10;
+                while (*closing_tag != '<')
                 {
-                    getTimeFromString(lp, appointment->Duration);
+                    closing_tag++;
+                }
+
+                if (strncmp(closing_tag, "</Duration>", 11) == 0)
+                {
+                    appointment->Duration = malloc(sizeof(sTime));
+                    if (appointment->Duration)
+                    {
+                        getTimeFromString(lp, appointment->Duration);
+                        foundDuration = 1;
+                    }
                 }
             }
         }
 
     } while (strncmp(lp, "</Appointment>", 13) != 0);
 
-    if (!isDateValid(&appointment->Date)
-    || !isTimeValid(&appointment->StartTime) || !foundTime
-    || !appointment->Description)
+    if (!foundDate || !foundTime || !foundDescription)
     {
-        errorCode = 2;
         return 0;
     }
 

@@ -92,7 +92,7 @@ int getText(char* prompt, int len_max, char** text, int required)
     unsigned int len_input = 0;
 
     char scanf_format[15] = {0};
-    sprintf(scanf_format, "%%%i[^\n]", len_max);
+    sprintf(scanf_format, "%%%i[^<\n]", len_max); // '<' ist verboten wg. XML und führt zu Eingabeende
 
     input = malloc(sizeof(char) * (len_max + 1)); // sizeof eigtl. unnötig, weil char = 1 byte
     if (input == NULL) { errorCode = 1; return 0; }
