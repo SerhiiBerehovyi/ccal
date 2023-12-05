@@ -60,9 +60,6 @@ int saveAppointment(FILE* fp, sAppointment* appointment)
 }
 
 
-// TODO - testen : leere tags in xml
-// TODO - testen : falsche tags
-// TODO - evtl. unvollstaendige apptmtns nur auslassen, aber rest trotzdem laden
 int loadCalendar()
 {
     FILE* fp_database = fopen(DATABASE_FILENAME, "rb");
@@ -264,7 +261,7 @@ int loadAppointment(FILE* fp, sAppointment* appointment)
                     appointment->Duration = malloc(sizeof(sTime));
                     if (appointment->Duration)
                     {
-                        getTimeFromString(lp, appointment->Duration);
+                        getTimeFromString(lp + 10, appointment->Duration);
                         foundDuration = 1;
                     }
                 }

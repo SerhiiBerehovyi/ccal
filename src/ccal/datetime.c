@@ -34,7 +34,7 @@ enum eDayOfTheWeek getWeekday(sDate* date) // TODO - debug this function; return
         case 5: return Fr;
         case 6: return Sa;
         case 7: return So;
-        default: return NotADay;
+        default: return Do; // TODO - quick fix, replace with NotADay as soon as function works as it should
     }
 }
 
