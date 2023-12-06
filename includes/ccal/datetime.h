@@ -34,7 +34,16 @@ int isLeapYear(int year);
 int isDateValid(sDate* date);
 
 
+/*******************************************
+ * Testet, ob sTime eine gültige Zeitangabe im Format hh:mm ist
+ *
+ * sTime* time: Zeiger auf sTime struct
+ *
+ * output : 1 , gueltig
+ *          0 , ungueltig
+ * *****************************************/
 int isTimeValid(sTime* time);
+
 
 /*******************************************
  * Die Funktion konvertiert die gegebene Zeichenkette in
@@ -80,27 +89,66 @@ char* getSubstring(char* str, char* dest);
 int getDateFromString(char* input, sDate* date);
 
 
+/*******************************************
+ * Die Funktion liest die Zeichenkette aus input und prueft
+ * ob es sich um eine valide Zeitangabe im Format hh:mm handelt.
+ * Gueltige Zeitangabe wird dann in sTime gespeichert.
+ *
+ * char* input : Zeiger auf Zeichenkette von User-Input
+ *
+ * sDate* date : Zeiger auf sDate Struktur, in die gueltige
+ *               Zeitangabe gespeichert werden muss.
+ *
+ * output : 1 , wenn die eingegebene Zeitangabe gueltig ist.
+ *          0 , wenn nicht
+ * *****************************************/
 int getTimeFromString(char* input, sTime* time);
 
 
-/**********************************************************
- *
- **********************************************************/
+/*************************************************************************************
+* Funktion:         getDate
+* Beschreibung:     Fordert den Benutzer auf, ein Datum einzugeben und speichert dieses in
+*                  einer per Zeiger übergebenen sDate Struktur
+*
+* Parameter:        char* prompt        Zeiger auf Text-Array mit Eingabeaufforderung
+*                   sDate* date         Zeiger auf Speicherziel
+* Ergebnis:         0 - Fehler bei Speicherzuweisung
+*                   1 - OK
+*************************************************************************************/
 int getDate(char* prompt, sDate* date);
 
 
-
+/*************************************************************************************
+* Funktion:         getTime
+* Beschreibung:     Fordert den Benutzer auf, eine Zeitangabe einzugeben und speichert
+*                   diese in einer per Zeiger übergebenen sTime Struktur
+*
+* Parameter:        char* prompt        Zeiger auf Text-Array mit Eingabeaufforderung
+*                   sTime* time         Zeiger auf Speicherziel
+* Ergebnis:         0 - Fehler bei Speicherzuweisung
+*                   1 - OK
+*************************************************************************************/
 int getTime(char* prompt, sTime** time, int required);
 
 
-
+/*************************************************************************************
+* Funktion:         printDate
+* Beschreibung:     Gibt ein per Zeiger übergebenes Datum auf dem Bildschirm aus
+*
+* Parameter:        sDate* date         Zeiger auf Datum
+* Ergebnis:         -
+*************************************************************************************/
 void printDate(sDate* date);
 
 
-
+/*************************************************************************************
+* Funktion:         printTime
+* Beschreibung:     Gibt eine per Zeiger übergebene Zeitangabe auf dem Bildschirm aus
+*
+* Parameter:        sTime* time         Zeiger auf Zeitangabe
+* Ergebnis:         -
+*************************************************************************************/
 void printTime(sTime* time);
-
-
 
 
 #endif //CCAL_DATETIME_H
