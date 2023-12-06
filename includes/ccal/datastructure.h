@@ -17,7 +17,7 @@
 #define LOCATION_MAXLEN 15
 #define DESCRIPTION_MAXLEN 100
 
-#define DATABASE_FILENAME "database.xml"
+#define DATABASE_FILENAME "calendar.xml"
 
 enum eDayOfTheWeek
 {
