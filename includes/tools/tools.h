@@ -21,6 +21,8 @@ int getStringLength(char *str);
 
 void printLine(char pencil, int count);
 
+void cut_ctrlchars(char* lp);
+
 
 /**********************************************************
  * Funktion:    getText

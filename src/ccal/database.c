@@ -159,18 +159,14 @@ int loadAppointment(FILE* fp, sAppointment* appointment)
             lp++;
         }
 
+        cut_ctrlchars(lp);
 
         if (strncmp(lp, "<Date>", 6) == 0)
         {
             if (!foundDate)
             {
-                char* closing_tag = lp + 6;
-                while (*closing_tag != '<')
-                {
-                    closing_tag++;
-                }
-
-                if (strncmp(closing_tag, "</Date>", 7) == 0)
+                unsigned long len = strlen(lp + 6) - 7;
+                if (strncmp(lp + 6 + len, "</Date>", 7) == 0)
                 {
                     if (!getDateFromString(lp + 6, &appointment->Date))
                     {
@@ -184,13 +180,8 @@ int loadAppointment(FILE* fp, sAppointment* appointment)
         {
             if (!foundTime)
             {
-                char* closing_tag = lp + 6;
-                while (*closing_tag != '<')
-                {
-                    closing_tag++;
-                }
-
-                if (strncmp(closing_tag, "</Time>", 7) == 0)
+                unsigned long len = strlen(lp + 6) - 7;
+                if (strncmp(lp + 6 + len, "</Time>", 7) == 0)
                 {
                     if (!getTimeFromString(lp + 6, &appointment->StartTime))
                     {
@@ -204,15 +195,8 @@ int loadAppointment(FILE* fp, sAppointment* appointment)
         {
             if (!foundDescription)
             {
-                int len = 0;
-                char* closing_tag = lp + 13;
-                while (*closing_tag != '<')
-                {
-                    len++;
-                    closing_tag++;
-                }
-
-                if (len > 0 && (strncmp(closing_tag, "</Description>", 14) == 0))
+                unsigned long len = strlen(lp + 13) - 14;
+                if (strncmp(lp + 13 + len, "</Description>", 14) == 0)
                 {
                     appointment->Description = calloc(len + 1, sizeof(char));
                     if (appointment->Description)
@@ -227,15 +211,8 @@ int loadAppointment(FILE* fp, sAppointment* appointment)
         {
             if (!foundLocation)
             {
-                int len = 0;
-                char* closing_tag = lp + 10;
-                while (*closing_tag != '<')
-                {
-                    len++;
-                    closing_tag++;
-                }
-
-                if (len > 0 && (strncmp(closing_tag, "</Location>", 11) == 0))
+                unsigned long len = strlen(lp + 10) - 11;
+                if (strncmp(lp + 10 + len, "</Location>", 11) == 0)
                 {
                     appointment->Location = calloc(len + 1, sizeof(char));
                     if (appointment->Location)
@@ -250,13 +227,8 @@ int loadAppointment(FILE* fp, sAppointment* appointment)
         {
             if (!foundDuration)
             {
-                char* closing_tag = lp + 10;
-                while (*closing_tag != '<')
-                {
-                    closing_tag++;
-                }
-
-                if (strncmp(closing_tag, "</Duration>", 11) == 0)
+                unsigned long len = strlen(lp + 10) - 11;
+                if (strncmp(lp + 10 + len, "</Duration>", 11) == 0)
                 {
                     appointment->Duration = malloc(sizeof(sTime));
                     if (appointment->Duration)

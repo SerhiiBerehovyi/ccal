@@ -92,7 +92,7 @@ int getText(char* prompt, int len_max, char** text, int required)
     unsigned int len_input = 0;
 
     char scanf_format[15] = {0};
-    sprintf(scanf_format, "%%%i[^<\n]", len_max); // '<' ist verboten wg. XML und führt zu Eingabeende
+    sprintf(scanf_format, "%%%i[^\n]", len_max);
 
     input = malloc(sizeof(char) * (len_max + 1)); // sizeof eigtl. unnötig, weil char = 1 byte
     if (input == NULL) { errorCode = 1; return 0; }
@@ -139,4 +139,17 @@ int getText(char* prompt, int len_max, char** text, int required)
 
     free(input);
     return result;
+}
+
+
+void cut_ctrlchars(char* lp)
+{
+    while (*lp != '\0')
+    {
+        if (*lp < 0x20)
+        {
+            *lp = '\0';
+        }
+        lp++;
+    }
 }
