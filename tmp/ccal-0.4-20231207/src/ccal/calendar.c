@@ -9,8 +9,6 @@
 #include "../../includes/ccal/datastructure.h"
 #include "../../includes/ccal/database.h"
 #include "../../includes/ccal/datetime.h"
-#include "../../includes/ccal/menu.h"
-#include "../../includes/ccal/sort.h"
 
 
 int errorCode = 0;
@@ -74,119 +72,10 @@ void searchAppointment(void)
 }
 
 
-int compare_by_description(sAppointment *first_appt, sAppointment *second_appt) // TODO
-{
-    return 0;
-}
-
-
-int compare_location(sAppointment *first_appt, sAppointment *second_appt) // TODO
-{
-    return 0;
-}
-
-
-int compare_duration(sAppointment *first_appt, sAppointment *second_appt) // TODO
-{
-    return 0;
-}
-
-
-int compare_by_date_and_time(sAppointment *first_appt, sAppointment *second_appt)
-{
-    if (first_appt->Date.Year > second_appt->Date.Year)
-    {
-        return 1;
-    }
-    else if (first_appt->Date.Year < second_appt->Date.Year)
-    {
-        return -1;
-    }
-    else
-    {
-        if (first_appt->Date.Month > second_appt->Date.Month)
-        {
-            return 1;
-        }
-        else if (first_appt->Date.Month < second_appt->Date.Month)
-        {
-            return -1;
-        }
-        else
-        {
-            if (first_appt->Date.Day > second_appt->Date.Day)
-            {
-                return 1;
-            }
-            else if (first_appt->Date.Day < second_appt->Date.Day)
-            {
-                return -1;
-            }
-            else
-            {
-                if (first_appt->StartTime.Hour > second_appt->StartTime.Hour)
-                {
-                    return 1;
-                }
-                else if (first_appt->StartTime.Hour < second_appt->StartTime.Hour)
-                {
-                    return -1;
-                }
-                else
-                {
-                    if (first_appt->StartTime.Minute > second_appt->StartTime.Minute)
-                    {
-                        return 1;
-                    }
-                    else if (first_appt->StartTime.Minute < second_appt->StartTime.Minute)
-                    {
-                        return -1;
-                    }
-                    else
-                    {
-                        return 0;
-                    }
-                }
-            }
-        }
-    }
-}
-
-
 void sortCalendar(void)
 {
-    char menuTitle[50] = "Termine sortieren";
-
-    while (1)
-    {
-        char *menuItems[MENUITEM_MAXNUM];
-        menuItems[1] = "Sortieren nach Datum und Uhrzeit";
-        menuItems[2] = "Sortieren nach Beschreibung";
-        menuItems[3] = "Sortieren nach Ort";
-        menuItems[4] = "Sortieren nach Dauer";
-        menuItems[5] = "Zurueck zum Hauptmenue";
-
-        int menuChoice = getMenu(menuTitle, menuItems, 5);
-
-        switch (menuChoice)
-        {
-            case 1:
-                sort_appointments(&Calendar[0], countAppointments, compare_by_date_and_time);
-                return;
-            case 2:
-                // TODO
-                break;
-            case 3:
-                // TODO
-                break;
-            case 4:
-                // TODO
-                break;
-            default:
-                return;
-        }
-    }
-
+    printf("TODO: Kalender sortieren\n");
+    waitForEnter();
 }
 
 
@@ -204,8 +93,6 @@ void printAppointment(sAppointment* appointment, int print_date)
     }
     printf("\t");
     printTime(&appointment->StartTime);
-
-    // TODO calculate EndTime (use new addTime Function) and print it
 
     if (appointment->Location)
     {

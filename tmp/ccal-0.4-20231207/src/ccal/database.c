@@ -62,7 +62,7 @@ int saveAppointment(FILE* fp, sAppointment* appointment)
 
 int loadCalendar()
 {
-    FILE* fp_database = fopen(DATABASE_FILENAME, "rt");
+    FILE* fp_database = fopen(DATABASE_FILENAME, "rb");
     if (!fp_database)
     {
         errorCode = 5;
