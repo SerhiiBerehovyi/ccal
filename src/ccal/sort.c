@@ -2,65 +2,74 @@
 // Created by Anselm Nehls on 17.12.23.
 //
 
+#include <stdio.h>
 #include "../../includes/ccal/sort.h"
 
 
-void swap(sAppointment *this, sAppointment *that)
+void swap_appointments(sAppointment *first, sAppointment *second)
 {
     sAppointment tmp;
-    tmp = *this;
-    *this = *that;
-    *that = tmp;
+
+    tmp = *first;
+    *first  = *second;
+    *second = tmp;
 }
 
 
-int partition(sAppointment *array, int lower, int upper, int (*compare_func_ptr) (sAppointment *, sAppointment *))
+int partition(sAppointment *appointments, int lower_idx, int upper_idx, int (*compare_func_ptr) (sAppointment *, sAppointment *))
 {
-    sAppointment *pivot = array + lower;
-    int i = lower + 1;
-    int j = upper;
+    sAppointment *pivot = appointments + lower_idx;
+    int i = lower_idx + 1;
+    int j = upper_idx;
 
     while (i <= j)
     {
-        while ( (i <= j) && ((compare_func_ptr(array + i, pivot)) <= 0) )
+        while ( i <= j && compare_func_ptr(appointments + i, pivot) <= 0 )
         {
             i++;
         }
-        while ( (j >= i) && ((compare_func_ptr(array + j, pivot)) >= 0) )
+        while ( j >= i && compare_func_ptr(appointments + j, pivot) >= 0 )
         {
             j--;
         }
         if (i < j)
         {
-            swap(array + i, array + j);
+            swap_appointments(appointments + i, appointments + j);
             i++;
             j--;
         }
     }
     i--;
-    swap(pivot, array + i);
+    swap_appointments(pivot, appointments + i);
+
+    printf(".");
 
     return i;
 }
 
-void quicksort(sAppointment *array, int lower, int upper, int (*compare_func_ptr) (sAppointment *, sAppointment *))
+
+void quicksort(sAppointment *appointments, int lower_idx, int upper_idx, int (*compare_func_ptr) (sAppointment *, sAppointment *))
 {
     int pivot;
 
-    if (lower >= upper)
+    if (lower_idx >= upper_idx)
     {
         return;
     }
     else
     {
-        pivot = partition(array, lower, upper, compare_func_ptr);
-        quicksort(array, lower, pivot - 1, compare_func_ptr);
-        quicksort(array, pivot + 1, upper, compare_func_ptr);
+        pivot = partition(appointments, lower_idx, upper_idx, compare_func_ptr);
+        quicksort(appointments, lower_idx, pivot - 1, compare_func_ptr);
+        quicksort(appointments, pivot + 1, upper_idx, compare_func_ptr);
     }
 }
 
 
-void sort_appointments(sAppointment *array, int count, int (*compare_func_ptr) (sAppointment *, sAppointment *))
+void sort_appointments(sAppointment *appointments, int count, int (*compare_func_ptr) (sAppointment *, sAppointment *))
 {
-    quicksort(array, 0, countAppointments - 1, compare_func_ptr);
+    printf("Sortiere Kalender ");
+
+    quicksort(appointments, 0, count - 1, compare_func_ptr);
+
+    printf("\n\nFertig.\n");
 }

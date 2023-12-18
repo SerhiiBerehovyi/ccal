@@ -92,53 +92,53 @@ int compare_duration(sAppointment *first_appt, sAppointment *second_appt) // TOD
 }
 
 
-int compare_by_date_and_time(sAppointment *first_appt, sAppointment *second_appt)
+int compare_by_date_and_time(sAppointment *first, sAppointment *second)
 {
-    if (first_appt->Date.Year > second_appt->Date.Year)
+    if (first->Date.Year > second->Date.Year)
     {
         return 1;
     }
-    else if (first_appt->Date.Year < second_appt->Date.Year)
+    else if (first->Date.Year < second->Date.Year)
     {
         return -1;
     }
     else
     {
-        if (first_appt->Date.Month > second_appt->Date.Month)
+        if (first->Date.Month > second->Date.Month)
         {
             return 1;
         }
-        else if (first_appt->Date.Month < second_appt->Date.Month)
+        else if (first->Date.Month < second->Date.Month)
         {
             return -1;
         }
         else
         {
-            if (first_appt->Date.Day > second_appt->Date.Day)
+            if (first->Date.Day > second->Date.Day)
             {
                 return 1;
             }
-            else if (first_appt->Date.Day < second_appt->Date.Day)
+            else if (first->Date.Day < second->Date.Day)
             {
                 return -1;
             }
             else
             {
-                if (first_appt->StartTime.Hour > second_appt->StartTime.Hour)
+                if (first->StartTime.Hour > second->StartTime.Hour)
                 {
                     return 1;
                 }
-                else if (first_appt->StartTime.Hour < second_appt->StartTime.Hour)
+                else if (first->StartTime.Hour < second->StartTime.Hour)
                 {
                     return -1;
                 }
                 else
                 {
-                    if (first_appt->StartTime.Minute > second_appt->StartTime.Minute)
+                    if (first->StartTime.Minute > second->StartTime.Minute)
                     {
                         return 1;
                     }
-                    else if (first_appt->StartTime.Minute < second_appt->StartTime.Minute)
+                    else if (first->StartTime.Minute < second->StartTime.Minute)
                     {
                         return -1;
                     }
@@ -168,10 +168,13 @@ void sortCalendar(void)
 
         int menuChoice = getMenu(menuTitle, menuItems, 5);
 
+        clearScreen();
+
         switch (menuChoice)
         {
             case 1:
                 sort_appointments(&Calendar[0], countAppointments, compare_by_date_and_time);
+                waitForEnter();
                 return;
             case 2:
                 // TODO
