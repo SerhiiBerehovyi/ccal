@@ -9,6 +9,22 @@
 #include "../../includes/tools/escapesequenzen.h"
 
 
+sTime addTime(sTime *start, sTime *duration)
+{
+    sTime t;
+    int h = start->Hour + duration->Hour;
+    int m = start->Minute + duration->Minute;
+
+    h > 24 ? h -= 24 : h;
+    m > 60 ? m -= 60 : m;
+
+    t.Hour = h;
+    t.Minute = m;
+
+    return t;
+}
+
+
 int isLeapYear(int year)
 {
     return ( !(year % 4) && (year % 100) || !(year % 400) );

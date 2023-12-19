@@ -11,6 +11,7 @@
 #include "../../includes/ccal/datetime.h"
 #include "../../includes/ccal/menu.h"
 #include "../../includes/ccal/sort.h"
+#include "../../includes/ccal/calendar.h"
 
 
 int errorCode = 0;
@@ -74,21 +75,103 @@ void searchAppointment(void)
 }
 
 
-int compare_by_description(sAppointment *first_appt, sAppointment *second_appt) // TODO
+int compare_by_description(sAppointment *first_appt, sAppointment *second_appt)
 {
-    return 0;
+    // anpassen an comp by loc[]
+    char *desc1 = to_lowercase(first_appt->Description);
+    char *desc2 = to_lowercase(second_appt->Description);
+    int result = strcmp(desc1, desc2);
+    free(desc1);
+    free(desc2);
+    return result;
 }
 
 
-int compare_location(sAppointment *first_appt, sAppointment *second_appt) // TODO
+int compare_by_location(sAppointment *first_appt, sAppointment *second_appt)
 {
-    return 0;
+    sAppointment appointments[2];
+    appointments[0] = *first_appt;
+    appointments[1] = *second_appt;
+
+    char *location[2] = { 0 };
+
+    int i;
+    for (i = 0; i < 2; i++)
+    {
+        if (appointments[i].Location == NULL)
+        {
+            if ((location[i] = malloc(1)))
+            {
+                *location[i] = '\0';
+            }
+            else
+            {
+                errorCode = 66; // TODO - enumerate errorCodes
+                return 0;
+            }
+        }
+        else
+        {
+            location[i] = to_lowercase(appointments[i].Location);
+        }
+    }
+
+    int result = strcmp(location[0], location[1]);
+
+    for (i = 0; i < 2; i++)
+    {
+        free(location[i]);
+    }
+
+    return result;
 }
 
 
-int compare_duration(sAppointment *first_appt, sAppointment *second_appt) // TODO
+int compare_by_duration(sAppointment *first_appt, sAppointment *second_appt)
 {
-    return 0;
+    sAppointment appointments[2];
+    appointments[0] = *first_appt;
+    appointments[1] = *second_appt;
+
+    sTime duration[2];
+
+    int i;
+    for (i = 0; i < 2; i++)
+    {
+        if (appointments[i].Duration == NULL)
+        {
+            duration[i].Hour   = 0;
+            duration[i].Minute = 0;
+        }
+        else
+        {
+            duration[i] = *appointments[i].Duration;
+        }
+    }
+
+    if (duration[0].Hour > duration[1].Hour)
+    {
+        return 1;
+    }
+    else if (duration[0].Hour < duration[1].Hour)
+    {
+        return -1;
+    }
+    else
+    {
+        if (duration[0].Minute > duration[1].Minute)
+        {
+            return 1;
+        }
+        else if (duration[0].Minute < duration[1].Minute)
+        {
+            return -1;
+        }
+        else
+        {
+            return 0;
+        }
+    }
 }
 
 
@@ -175,16 +258,26 @@ void sortCalendar(void)
             case 1:
                 sort_appointments(&Calendar[0], countAppointments, compare_by_date_and_time);
                 waitForEnter();
+                listCalendar();
                 return;
             case 2:
-                // TODO
-                break;
+                sort_appointments(&Calendar[0], countAppointments, compare_by_description);
+                waitForEnter();
+                listCalendar();
+                return;
             case 3:
-                // TODO
-                break;
+                sort_appointments(&Calendar[0], countAppointments, compare_by_location);
+                if (errorCode != 66)
+                {
+                    waitForEnter();
+                    listCalendar();
+                }
+                return;
             case 4:
-                // TODO
-                break;
+                sort_appointments(&Calendar[0], countAppointments, compare_by_duration);
+                waitForEnter();
+                listCalendar();
+                return;
             default:
                 return;
         }
@@ -200,19 +293,28 @@ void printAppointment(sAppointment* appointment, int print_date)
     if (print_date)
     {
         printf("\n");
-        printLine('=', 50);
+        printLine('=', 14);
         printDate(&appointment->Date);
-        printf(":\n");
-        printLine('-', 14);
+        printf("\n");
+        printLine(' ', 14);
     }
-    printf("\t");
+    printf(" ");
     printTime(&appointment->StartTime);
 
-    // TODO calculate EndTime (use new addTime Function) and print it
+    if (appointment->Duration)
+    {
+        printf(" - ");
+        sTime endTime = addTime(&appointment->StartTime, appointment->Duration);
+        printTime(&endTime);
+    }
+    else
+    {
+        printf("        ");
+    }
 
     if (appointment->Location)
     {
-        sprintf(printf_format, " -> %%-%i.%is | ", LOCATION_MAXLEN, LOCATION_MAXLEN);
+        sprintf(printf_format, " -> %%-%i.%is ~ ", LOCATION_MAXLEN, LOCATION_MAXLEN);
         printf(printf_format, appointment->Location);
     }
     else
@@ -222,7 +324,7 @@ void printAppointment(sAppointment* appointment, int print_date)
         {
             printf(" ");
         }
-        printf(" | ");
+        printf(" ~ ");
     }
 
     if (strlen(appointment->Description) <= 48)
@@ -291,9 +393,21 @@ void freeAppointments()
     int i;
     for (i = 0; i < MAXAPPOINTMENTS; i++)
     {
-        free(Calendar[i].Description);  Calendar[i].Description = NULL;
-        free(Calendar[i].Location);     Calendar[i].Location    = NULL;
-        free(Calendar[i].Duration);     Calendar[i].Duration    = NULL;
+        if (Calendar[i].Description != NULL)
+        {
+            free(Calendar[i].Description);
+            Calendar[i].Description = NULL;
+        }
+        if (Calendar[i].Location != NULL)
+        {
+            free(Calendar[i].Location);
+            Calendar[i].Location = NULL;
+        }
+        if (Calendar[i].Duration != NULL)
+        {
+            free(Calendar[i].Duration);
+            Calendar[i].Duration = NULL;
+        }
     }
 }
 

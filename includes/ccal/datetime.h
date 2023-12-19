@@ -8,6 +8,8 @@
 
 #include "datastructure.h"
 
+// TODO - Funktionsheader
+sTime addTime(sTime *start, sTime *duration);
 
 /*******************************************
  * Die Funktion testet, ob das eingegebene Jahr

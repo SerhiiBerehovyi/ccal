@@ -119,7 +119,7 @@ int loadCalendar()
 
     } while (strncmp(lp, "</Calendar>", 11) != 0);
 
-    printf("\n");
+    printf("\n\nFertig.\n");
     waitForEnter();
 
     return 1;
@@ -218,7 +218,15 @@ int loadAppointment(FILE* fp, sAppointment* appointment)
                     if (appointment->Location)
                     {
                         strncpy(appointment->Location, lp + 10, len);
-                        foundLocation = 1;
+                        if (strlen(appointment->Location) > 0)
+                        {
+                            foundLocation = 1;
+                        }
+                        else
+                        {
+                            free(appointment->Location);
+                            appointment->Location = NULL;
+                        }
                     }
                 }
             }

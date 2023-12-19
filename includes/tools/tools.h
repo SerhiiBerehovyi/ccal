@@ -61,8 +61,6 @@ void waitForEnter();
 *************************************************************************************/
 int askYesOrNo(char *Question);
 
-int getStringLength(char *str);
-
 
 /*************************************************************************************
 * Funktion:         printLine
@@ -95,6 +93,10 @@ void cut_ctrlchars(char *lp);
 * Ergebnis:         -
 *************************************************************************************/
 int getText(char *prompt, int len_max, char** text, int required);
+
+
+// TODO header
+char *to_lowercase(char *);
 
 
 #endif //TOOLS_H

@@ -55,6 +55,10 @@ int main()
                 {
                     printf("Mindestens ein Termin konnte nicht geladen werden. Kalender und %s pruefen.\n", DATABASE_FILENAME);
                 }
+                case 66:
+                {
+                    printf("Nicht mal ein einziges Byte war mehr frei :(\n");
+                }
                 default:
                 {
                     break;

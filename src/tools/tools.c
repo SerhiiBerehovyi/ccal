@@ -153,3 +153,36 @@ void cut_ctrlchars(char* lp)
         lp++;
     }
 }
+
+
+char *to_lowercase(char *text)
+{
+    if (text == NULL)
+    {
+        return NULL;
+    }
+
+    char *lower_text = malloc(strlen(text) + 1);
+    if (lower_text == NULL)
+    {
+        return NULL;
+    }
+
+    char *tp         = lower_text;
+
+    while (*text)
+    {
+        if (*text > 'A' && *text <= 'Z')
+        {
+            *lower_text = *text + 32;
+        }
+        else
+        {
+            *lower_text = *text;
+        }
+        text++;
+        lower_text++;
+    }
+    *lower_text      = '\0';
+    return tp;
+}
