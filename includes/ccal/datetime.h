@@ -8,8 +8,16 @@
 
 #include "datastructure.h"
 
-// TODO - Funktionsheader
-sTime addTime(sTime *start, sTime *duration);
+/*************************************************************************************
+* Funktion:         addTime
+* Beschreibung:     Addiert zwei im Format sTime vorliegende Zeitangaben
+*
+* Parameter:        sTime *         Zeiger auf erste Zeitangabe
+*                   sTime *         Zeiger auf zweite Zeitangabe
+* Ergebnis:         sTime           Resultierende Zeitangabe
+*************************************************************************************/
+sTime addTime(sTime *, sTime *);
+
 
 /*******************************************
  * Die Funktion testet, ob das eingegebene Jahr

@@ -102,4 +102,68 @@ void freeAppointments(void);
 void closeCalendar(void);
 
 
+/*************************************************************************************
+* Funktion:         compare_by_description
+* Beschreibung:     Vergleicht die Beschreibungen zweier per Zeiger übergebener Termine
+*                   und gibt deren alphabetische Reihenfolge zurück (unabhängig von
+*                   Groß- / Kleinschreibung)
+*
+* Parameter:        sAppointment *      Erster Termin
+*                   sAppointment *      Zweiter Termin
+*
+* Ergebnis:         int                  1 - Zweiter Termin, erster Termin
+*                                        0 - beide Beschreibungen sind gleich
+*                                       -1 - Erster Termin, zweiter Termin
+*************************************************************************************/
+int compare_by_description(sAppointment *, sAppointment *);
+
+
+/*************************************************************************************
+* Funktion:         compare_by_location
+* Beschreibung:     Vergleicht die Ortsangaben zweier per Zeiger übergebener Termine
+*                   und gibt deren alphabetische Reihenfolge zurück (unabhängig von
+*                   Groß- / Kleinschreibung). Termine ohne Ortsangabe werden an den
+*                   Anfang sortiert.
+*
+* Parameter:        sAppointment *      Erster Termin
+*                   sAppointment *      Zweiter Termin
+*
+* Ergebnis:         int                  1 - Zweiter Termin, erster Termin
+*                                        0 - beide Ortsangaben sind gleich
+*                                       -1 - Erster Termin, zweiter Termin
+*************************************************************************************/
+int compare_by_location(sAppointment *, sAppointment *);
+
+
+/*************************************************************************************
+* Funktion:         compare_by_duration
+* Beschreibung:     Vergleicht die Dauern zweier per Zeiger übergebener Termine
+*                   und gibt deren Reihenfolge zurück.
+*                   Termine ohne Angabe einer Dauer werden an den Anfang sortiert.
+*
+* Parameter:        sAppointment *      Erster Termin
+*                   sAppointment *      Zweiter Termin
+*
+* Ergebnis:         int                  1 - Zweiter Termin kürzer als erster Termin
+*                                        0 - beide Termine sind gleich lang
+*                                       -1 - Erster Termin kürzer als zweiter Termin
+*************************************************************************************/
+int compare_by_duration(sAppointment *, sAppointment *);
+
+
+/*************************************************************************************
+* Funktion:         compare_by_date_and_time
+* Beschreibung:     Vergleicht die Startzeitpunkte zweier per Zeiger übergebener Termine
+*                   und gibt deren zeitliche Reihenfolge zurück.
+*
+* Parameter:        sAppointment *      Erster Termin
+*                   sAppointment *      Zweiter Termin
+*
+* Ergebnis:         int                  1 - Zweiter Termin liegt vor erstem Termin
+*                                        0 - Startzeitpunkt beider Termine gleich
+*                                       -1 - Erster Termin liegt vor zweitem Termin
+*************************************************************************************/
+int compare_by_date_and_time(sAppointment *, sAppointment *);
+
+
 #endif //CCAL_CALENDAR_H

@@ -75,167 +75,6 @@ void searchAppointment(void)
 }
 
 
-int compare_by_description(sAppointment *first_appt, sAppointment *second_appt)
-{
-    // anpassen an comp by loc[]
-    char *desc1 = to_lowercase(first_appt->Description);
-    char *desc2 = to_lowercase(second_appt->Description);
-    int result = strcmp(desc1, desc2);
-    free(desc1);
-    free(desc2);
-    return result;
-}
-
-
-int compare_by_location(sAppointment *first_appt, sAppointment *second_appt)
-{
-    sAppointment appointments[2];
-    appointments[0] = *first_appt;
-    appointments[1] = *second_appt;
-
-    char *location[2] = { 0 };
-
-    int i;
-    for (i = 0; i < 2; i++)
-    {
-        if (appointments[i].Location == NULL)
-        {
-            if ((location[i] = malloc(1)))
-            {
-                *location[i] = '\0';
-            }
-            else
-            {
-                errorCode = 66; // TODO - enumerate errorCodes
-                return 0;
-            }
-        }
-        else
-        {
-            location[i] = to_lowercase(appointments[i].Location);
-        }
-    }
-
-    int result = strcmp(location[0], location[1]);
-
-    for (i = 0; i < 2; i++)
-    {
-        free(location[i]);
-    }
-
-    return result;
-}
-
-
-int compare_by_duration(sAppointment *first_appt, sAppointment *second_appt)
-{
-    sAppointment appointments[2];
-    appointments[0] = *first_appt;
-    appointments[1] = *second_appt;
-
-    sTime duration[2];
-
-    int i;
-    for (i = 0; i < 2; i++)
-    {
-        if (appointments[i].Duration == NULL)
-        {
-            duration[i].Hour   = 0;
-            duration[i].Minute = 0;
-        }
-        else
-        {
-            duration[i] = *appointments[i].Duration;
-        }
-    }
-
-    if (duration[0].Hour > duration[1].Hour)
-    {
-        return 1;
-    }
-    else if (duration[0].Hour < duration[1].Hour)
-    {
-        return -1;
-    }
-    else
-    {
-        if (duration[0].Minute > duration[1].Minute)
-        {
-            return 1;
-        }
-        else if (duration[0].Minute < duration[1].Minute)
-        {
-            return -1;
-        }
-        else
-        {
-            return 0;
-        }
-    }
-}
-
-
-int compare_by_date_and_time(sAppointment *first, sAppointment *second)
-{
-    if (first->Date.Year > second->Date.Year)
-    {
-        return 1;
-    }
-    else if (first->Date.Year < second->Date.Year)
-    {
-        return -1;
-    }
-    else
-    {
-        if (first->Date.Month > second->Date.Month)
-        {
-            return 1;
-        }
-        else if (first->Date.Month < second->Date.Month)
-        {
-            return -1;
-        }
-        else
-        {
-            if (first->Date.Day > second->Date.Day)
-            {
-                return 1;
-            }
-            else if (first->Date.Day < second->Date.Day)
-            {
-                return -1;
-            }
-            else
-            {
-                if (first->StartTime.Hour > second->StartTime.Hour)
-                {
-                    return 1;
-                }
-                else if (first->StartTime.Hour < second->StartTime.Hour)
-                {
-                    return -1;
-                }
-                else
-                {
-                    if (first->StartTime.Minute > second->StartTime.Minute)
-                    {
-                        return 1;
-                    }
-                    else if (first->StartTime.Minute < second->StartTime.Minute)
-                    {
-                        return -1;
-                    }
-                    else
-                    {
-                        return 0;
-                    }
-                }
-            }
-        }
-    }
-}
-
-
 void sortCalendar(void)
 {
     char menuTitle[50] = "Termine sortieren";
@@ -432,3 +271,171 @@ void closeCalendar()
     }
     clearScreen();
 }
+
+
+int compare_by_description(sAppointment *first, sAppointment *second)
+{
+    char *description[2] = { 0 };
+
+    description[0] = to_lowercase(first->Description);
+    description[1] = to_lowercase(second->Description);
+    int result = strcmp(description[0], description[1]);
+
+    int i;
+    for (i = 0; i < 2; i++)
+    {
+        free(description[i]);
+    }
+
+    return result;
+}
+
+
+int compare_by_location(sAppointment *first, sAppointment *second)
+{
+    sAppointment appointments[2];
+    appointments[0] = *first;
+    appointments[1] = *second;
+
+    char *location[2] = { 0 };
+
+    int i;
+    for (i = 0; i < 2; i++)
+    {
+        if (appointments[i].Location == NULL)
+        {
+            if ((location[i] = malloc(1)))
+            {
+                *location[i] = '\0';
+            }
+            else
+            {
+                errorCode = 66; // TODO - enumerate errorCodes
+                return 0;
+            }
+        }
+        else
+        {
+            location[i] = to_lowercase(appointments[i].Location);
+        }
+    }
+
+    int result = strcmp(location[0], location[1]);
+
+    for (i = 0; i < 2; i++)
+    {
+        free(location[i]);
+    }
+
+    return result;
+}
+
+
+int compare_by_duration(sAppointment *first, sAppointment *second)
+{
+    sAppointment appointments[2];
+    appointments[0] = *first;
+    appointments[1] = *second;
+
+    sTime duration[2];
+
+    int i;
+    for (i = 0; i < 2; i++)
+    {
+        if (appointments[i].Duration == NULL)
+        {
+            duration[i].Hour   = 0;
+            duration[i].Minute = 0;
+        }
+        else
+        {
+            duration[i] = *appointments[i].Duration;
+        }
+    }
+
+    if (duration[0].Hour > duration[1].Hour)
+    {
+        return 1;
+    }
+    else if (duration[0].Hour < duration[1].Hour)
+    {
+        return -1;
+    }
+    else
+    {
+        if (duration[0].Minute > duration[1].Minute)
+        {
+            return 1;
+        }
+        else if (duration[0].Minute < duration[1].Minute)
+        {
+            return -1;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+}
+
+
+int compare_by_date_and_time(sAppointment *first, sAppointment *second)
+{
+    if (first->Date.Year > second->Date.Year)
+    {
+        return 1;
+    }
+    else if (first->Date.Year < second->Date.Year)
+    {
+        return -1;
+    }
+    else
+    {
+        if (first->Date.Month > second->Date.Month)
+        {
+            return 1;
+        }
+        else if (first->Date.Month < second->Date.Month)
+        {
+            return -1;
+        }
+        else
+        {
+            if (first->Date.Day > second->Date.Day)
+            {
+                return 1;
+            }
+            else if (first->Date.Day < second->Date.Day)
+            {
+                return -1;
+            }
+            else
+            {
+                if (first->StartTime.Hour > second->StartTime.Hour)
+                {
+                    return 1;
+                }
+                else if (first->StartTime.Hour < second->StartTime.Hour)
+                {
+                    return -1;
+                }
+                else
+                {
+                    if (first->StartTime.Minute > second->StartTime.Minute)
+                    {
+                        return 1;
+                    }
+                    else if (first->StartTime.Minute < second->StartTime.Minute)
+                    {
+                        return -1;
+                    }
+                    else
+                    {
+                        return 0;
+                    }
+                }
+            }
+        }
+    }
+}
+

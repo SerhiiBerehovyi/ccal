@@ -95,7 +95,21 @@ void cut_ctrlchars(char *lp);
 int getText(char *prompt, int len_max, char** text, int required);
 
 
-// TODO header
+/*************************************************************************************
+* Funktion:         to_lowercase
+* Beschreibung:     Konvertiert alle Großbuchstaben in einem per Zeiger übergebenen
+*                   String in Kleinbuchstaben, ohne den ursprünglichen String zu verändern.
+*                   Es wird ein neuer, modifizierter String zurückgegeben.
+*                   Bei einem übergebenen NULL-Zeiger oder leerem String gibt die Funktion
+*                   NULL zurück.
+*
+*                   Die Funktion alloziiert dynamischen Speicher für den zurückgegebenen
+*                   String. Der aufrufende Code muss diesen später wieder freigeben!
+*
+* Parameter:        char *text     Zeiger auf den zu konvertierenden Text
+* Ergebnis:         char *         Zeiger auf den neuen, nur aus Kleinbuchstaben bestehenden String
+*                                  oder NULL bei Fehlern oder wenn der Eingabetext NULL ist
+*************************************************************************************/
 char *to_lowercase(char *);
 
 
