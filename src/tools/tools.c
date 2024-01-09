@@ -121,3 +121,16 @@ void printWithEllipsis(char* str, int maxLength){
         printf("%s", str);
     }
 }
+
+
+void skipControlCharacters(char *line)
+{
+    while(*line != '\0')
+    {
+        if (*line < 0x20)
+        {
+            *line = '\0';
+        }
+        line++;
+    }
+}

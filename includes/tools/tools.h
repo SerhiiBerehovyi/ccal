@@ -88,4 +88,6 @@ int getText(char* prompt, int maxLength, char** destination, int blank);
  * ***************************************************************************/
 void printWithEllipsis(char* str, int maxLength);
 
+void skipControlCharacters(char *line);
+
 #endif //UEB01_TOOLS_H
