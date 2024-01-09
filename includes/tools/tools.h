@@ -5,6 +5,7 @@
 #ifndef UEB01_TOOLS_H
 #define UEB01_TOOLS_H
 
+#include <stdio.h>
 #include "../ccal/datastructure.h"
 
 
@@ -13,6 +14,9 @@
  * Alle eingegebene Zeichen bis '\n' werden geloescht.
  * ***************************************************************************/
 void clearBuffer();
+
+
+void fclearBuffer(FILE *f);
 
 /******************************************************************************
  * Die Funktion fragt den User nach Eingabetastedruecken und wartet, bis

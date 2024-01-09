@@ -20,6 +20,17 @@ void clearBuffer()
     } while (Dummy != '\n');
 }
 
+
+void fclearBuffer(FILE *fp)
+{
+    char tmp;
+    do
+    {
+        fscanf(fp, "%c", &tmp);
+    } while (tmp != '\n' && !feof(fp));
+}
+
+
 void waitForEnter()
 {
     printf("\nBitte Eingabetaste druecken ...");
