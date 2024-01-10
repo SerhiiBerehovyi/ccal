@@ -164,4 +164,6 @@ void printAppointment(sAppointment* appointment);
  * ***************************************************************************/
 void freeCalendar();
 
+void freeAppointment(sAppointment appointment);
+
 #endif //CCAL_DATETIME_H

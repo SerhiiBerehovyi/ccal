@@ -252,9 +252,13 @@ void printAppointment(sAppointment* appointment) {
 
 void freeCalendar(){
     for(int i = 0; i < countAppointment; i++){
-        free(Calendar[i].Notes);
-        free(Calendar[i].Location);
-        if(Calendar[i].Duration != NULL)
-            free(Calendar[i].Duration);
+        freeAppointment(Calendar[i]);
     }
+}
+
+void freeAppointment(sAppointment appointment){
+    free(appointment.Notes);
+    free(appointment.Location);
+    if(appointment.Duration != NULL)
+        free(appointment.Duration);
 }
