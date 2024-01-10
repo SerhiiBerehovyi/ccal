@@ -94,4 +94,6 @@ void printWithEllipsis(char* str, int maxLength);
 
 void skipControlCharacters(char *line);
 
+void cutTail(char *str, char *tail);
+
 #endif //UEB01_TOOLS_H

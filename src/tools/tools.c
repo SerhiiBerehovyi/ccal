@@ -145,3 +145,17 @@ void skipControlCharacters(char *line)
         line++;
     }
 }
+
+
+void cutTail(char *str, char *tail)
+{
+    while(*str)
+    {
+        if(strncmp(str, tail, strlen(tail)) == 0)
+            break;
+        str++;
+    }
+
+    if(*str)
+        *str = '\0';
+}
