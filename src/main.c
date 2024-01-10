@@ -1,5 +1,6 @@
 
 #include <stdio.h>
+#include "../includes/ccal/database.h"
 #include "../includes/ccal/datetime.h"
 #include "../includes/tools/tools.h"
 #include "../includes/ccal/menu.h"
@@ -7,6 +8,17 @@
 
 int main()
 {
+
+    int calendarLoaded;
+    calendarLoaded = loadCalendar();
+    if(!calendarLoaded)
+    {
+        printf("Fehler beim Leser der Daten\n");
+        return 1;
+    }
+
+    printf("%s", "Der Datenbank wurde erfolgreich abgelesen.\n\n");
+
     char *menuName = "Terminverwaltung V 0.2";
     char *menuItems[] = {
             "Neuen Termin anlegen",
@@ -18,7 +30,7 @@ int main()
             "Program beenden"
     };
 
-    int answer;
+    int answer, calendarSaved;
 
     do {
         answer = getMenu(menuName, menuItems, 7);
@@ -42,6 +54,16 @@ int main()
                 listCalendar();
                 break;
             default:
+                calendarSaved = saveCalendar();
+                if(!calendarSaved)
+                {
+                    printf("Kalender kann nicht gespeichert werden.\n");
+                }
+                else
+                {
+                    printf("Kalender wurde erfolgreich gespeichert.\n");
+                }
+
                 freeCalendar();
                 printf("Programm wird beendet!\n");
         }
