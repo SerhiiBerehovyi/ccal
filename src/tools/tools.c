@@ -5,6 +5,7 @@
 
 #include "../../includes/tools/tools.h"
 #include "../../includes/ccal/datastructure.h"
+#include "../../includes/tools/escapesequenzen.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -47,6 +48,21 @@ void waitForEnter()
 {
     printf("\nBitte Eingabetaste druecken. ");
     clearBuffer();
+}
+
+int askForNumber(char *prompt) {
+    int number, scanned;
+
+    SAVE_POSITION;
+    do{
+        RESTORE_POSITION;
+        CLEAR_BELOW;
+        printf("%s", prompt);
+        scanned = scanf("%d", &number);
+        clearBuffer();
+    } while(!scanned);
+
+    return number;
 }
 
 /**********************************************************

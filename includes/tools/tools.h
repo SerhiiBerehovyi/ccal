@@ -113,4 +113,15 @@ int getText(char *prompt, int len_max, char** text, int required);
 char *to_lowercase(char *);
 
 
+/*************************************************************************************
+* Funktion:         askForNumber
+* Beschreibung:     Gibt die übergebene Eingabeaufforderung aus bis der Benutzer
+ *                  eine Zahl eingibt.
+*
+*
+* Parameter:        char *prompt        Eingabeaufforderung als Zeichenkette
+*
+* Ergebnis:         int                 die von User eingegebene Zahl
+*************************************************************************************/
+int askForNumber(char *prompt);
 #endif //TOOLS_H
