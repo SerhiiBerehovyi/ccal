@@ -75,6 +75,13 @@ void searchAppointment(void)
 }
 
 
+/******************************************************************
+ * Das Sortieren entfaellt komplett, da die Termine in die verkaetette
+ * Liste schon sortiert eingefeugt werden.
+ ******************************************************************/
+
+
+/*
 void sortCalendar(void)
 {
     char menuTitle[50] = "Termine sortieren";
@@ -123,6 +130,7 @@ void sortCalendar(void)
     }
 
 }
+ */
 
 
 void printAppointment(sAppointment* appointment, int print_date)
