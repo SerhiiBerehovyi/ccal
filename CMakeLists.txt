@@ -18,4 +18,6 @@ add_executable(ccal src/main.c
         includes/ccal/database.h
         src/ccal/sort.c
         includes/ccal/sort.h
-        )
+        includes/ccal/list.h
+        src/ccal/list.c
+)

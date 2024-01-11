@@ -10,12 +10,11 @@
 #include "../../includes/ccal/database.h"
 #include "../../includes/ccal/datetime.h"
 #include "../../includes/tools/tools.h"
+#include "../../includes/ccal/list.h"
 
 
 int saveCalendar()
 {
-    int i;
-
     FILE* fp_database = fopen(DATABASE_FILENAME, "wt");
     if (!fp_database)
     {
@@ -25,13 +24,16 @@ int saveCalendar()
 
     fprintf(fp_database, "<Calendar>\n");
 
-    for (i = 0; i < countAppointments; i++)
+    sAppointment *tmp = First;
+    while(tmp)
     {
-        if (!saveAppointment(fp_database, &Calendar[i]))
+        if (!saveAppointment(fp_database, tmp))
         {
             errorCode = 3;
             return 0;
         }
+
+        tmp = tmp->Next;
     }
 
     fprintf(fp_database, "</Calendar>");
@@ -75,6 +77,14 @@ int loadCalendar()
 
     do
     {
+        sAppointment *loadedAppointment = malloc(sizeof(sAppointment));
+        if(!loadedAppointment)
+        {
+            errorCode = 99;
+            return 0;
+        }
+
+
         *input_line = '\0';
         int scan_ok = fscanf(fp_database, "%99[^\n]", input_line);
         fclearBuffer(fp_database);
@@ -94,7 +104,7 @@ int loadCalendar()
         while (*lp == ' ' || *lp == 9) // skip spaces & tabs
         {
             lp++;
-        };
+        }
 
         if (strncmp (lp, "<Calendar>", 10) == 0)
         {
@@ -106,13 +116,15 @@ int loadCalendar()
         {
             if (strncmp(lp, "<Appointment>", 13) == 0)
             {
-                if (loadAppointment(fp_database, &Calendar[countAppointments]))
+                if (loadAppointment(fp_database, loadedAppointment))
                 {
                     countAppointments++;
+                    insertInDList(loadedAppointment);
                 }
                 else
                 {
                     errorCode = 6;
+                    free(loadedAppointment);
                 }
             }
         }

@@ -9,48 +9,45 @@
 #include "../../includes/ccal/datastructure.h"
 #include "../../includes/ccal/database.h"
 #include "../../includes/ccal/datetime.h"
-#include "../../includes/ccal/menu.h"
 #include "../../includes/ccal/sort.h"
 #include "../../includes/ccal/calendar.h"
+#include "../../includes/ccal/list.h"
 
 
 int errorCode = 0;
 int countAppointments = 0;
-sAppointment Calendar[MAXAPPOINTMENTS];
-
+sAppointment *First = NULL;
+sAppointment *Last = NULL;
 
 void createAppointment(void)
 {
-    if (countAppointments < MAXAPPOINTMENTS)
-    {
-        sTime*  pStartTime  = &Calendar[countAppointments].StartTime;
-        sTime*  pDuration   = NULL;
+    sAppointment *newAppointment = malloc(sizeof(sAppointment));
+    if (!newAppointment)
+        { return; }
 
-        HOME; CLEAR;
-        printf("Neuen Termin erstellen\n\n");
+    sTime*  pStartTime  = &newAppointment->StartTime;
+    sTime*  pDuration   = NULL;
 
-        if (!getDate("Datum        : ", &Calendar[countAppointments].Date))
-            { return; } CLEAR_BELOW;
-        if (!getTime("Beginn       : ", &pStartTime, 1))
-            { return; } CLEAR_BELOW;
-        if (!getText("Beschreibung : ", DESCRIPTION_MAXLEN, &Calendar[countAppointments].Description, 1))
-            { return; } CLEAR_BELOW;
-        if (!getText("Ort   (opt.) : ", LOCATION_MAXLEN, &Calendar[countAppointments].Location, 0))
-            { return; } CLEAR_BELOW;
-        if (!getTime("Dauer (opt.) : ", &pDuration, 0))
-            { return; } CLEAR_BELOW;
+    HOME; CLEAR;
+    printf("Neuen Termin erstellen\n\n");
 
-        Calendar[countAppointments].Duration = pDuration;
-        countAppointments++;
+    if (!getDate("Datum        : ", &newAppointment->Date))
+        { return; } CLEAR_BELOW;
+    if (!getTime("Beginn       : ", &pStartTime, 1))
+        { return; } CLEAR_BELOW;
+    if (!getText("Beschreibung : ", DESCRIPTION_MAXLEN, &newAppointment->Description, 1))
+        { return; } CLEAR_BELOW;
+    if (!getText("Ort   (opt.) : ", LOCATION_MAXLEN, &newAppointment->Location, 0))
+        { return; } CLEAR_BELOW;
+    if (!getTime("Dauer (opt.) : ", &pDuration, 0))
+        { return; } CLEAR_BELOW;
 
-        printf("\nTermin erfolgreich erstellt.\n");
-        waitForEnter();
-    }
-    else
-    {
-        printf("Der Kalender ist voll.\n");
-        waitForEnter();
-    }
+    newAppointment->Duration = pDuration;
+    countAppointments++;
+    insertInDList(newAppointment);
+
+    printf("\nTermin erfolgreich erstellt.\n");
+    waitForEnter();
 }
 
 
@@ -187,9 +184,9 @@ void printAppointment(sAppointment* appointment, int print_date)
 
 void listCalendar(void)
 {
-    int i;
+    int i = 0;
     int waiting, print_date;
-    sDate printed_date = { 0 };
+    sDate *printed_date = NULL;
 
     if (countAppointments > 0)
     {
@@ -197,30 +194,34 @@ void listCalendar(void)
         printf("Liste aller Termine\n");
         printLine('=', 19);
 
-        for (i = 0; i < countAppointments; i++)
+        sAppointment *tmp = First;
+        while(tmp)
         {
+            STORE_POS;
+
             waiting = 0;
             print_date = 0;
 
-            if (Calendar[i].Date.Day != printed_date.Day
-            || Calendar[i].Date.Month != printed_date.Month
-            || Calendar[i].Date.Year != printed_date.Year)
+            if ( printed_date == NULL
+                    || tmp->Date.Day != printed_date->Day
+                    || tmp->Date.Month != printed_date->Month
+                    || tmp->Date.Year != printed_date->Year)
             {
                 print_date = 1;
             }
 
-            printAppointment(&Calendar[i], print_date);
+            printAppointment(tmp, print_date);
 
-            printed_date.Day = Calendar[i].Date.Day;
-            printed_date.Month = Calendar[i].Date.Month;
-            printed_date.Year = Calendar[i].Date.Year;
+            printed_date = &tmp->Date;
 
             if ((i != 0) && ((i + 1) % LISTITEM_BREAK == 0))
             {
                 waiting = 1;
-                STORE_POS; waitForEnter();
+                waitForEnter();
                 RESTORE_POS; CLEAR_BELOW;
             }
+            i++;
+            tmp = tmp->Next;
         }
         if (!waiting)
         {
@@ -238,23 +239,28 @@ void listCalendar(void)
 void freeAppointments()
 {
     int i;
-    for (i = 0; i < MAXAPPOINTMENTS; i++)
+    while(First)
     {
-        if (Calendar[i].Description != NULL)
+        sAppointment *tmp = First->Next;
+
+        if (First->Description != NULL)
         {
-            free(Calendar[i].Description);
-            Calendar[i].Description = NULL;
+            free(First->Description);
+            First->Description = NULL;
         }
-        if (Calendar[i].Location != NULL)
+        if (First->Location != NULL)
         {
-            free(Calendar[i].Location);
-            Calendar[i].Location = NULL;
+            free(First->Location);
+            First->Location = NULL;
         }
-        if (Calendar[i].Duration != NULL)
+        if (First->Duration != NULL)
         {
-            free(Calendar[i].Duration);
-            Calendar[i].Duration = NULL;
+            free(First->Duration);
+            First->Duration = NULL;
         }
+
+        free(First);
+        First = tmp;
     }
 }
 

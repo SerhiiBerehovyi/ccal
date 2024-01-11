@@ -5,11 +5,10 @@
 #ifndef CCAL_DATASTRUCTURE_H
 #define CCAL_DATASTRUCTURE_H
 
-#define PROGRAM_VERSION "0.5"
+#define PROGRAM_VERSION "0.6"
 #define PROGRAM_TITLE "Kalenderverwaltung"
 #define PRINTED_TITLE PROGRAM_TITLE " v" PROGRAM_VERSION
 
-#define MAXAPPOINTMENTS 100
 #define MENUITEM_MAXLENGTH 50
 #define MENUITEM_MAXNUM 50
 #define LISTITEM_BREAK 15
@@ -39,19 +38,21 @@ typedef struct
 } sTime;
 
 
-typedef struct
+typedef struct sAppointment_
 {
     sDate Date;
     sTime StartTime;
     sTime* Duration;
     char* Description;
     char* Location;
+
+    struct sAppointment_ *Next;
+    struct sAppointment_ *Prev;
 } sAppointment;
 
 
 extern int errorCode;
 extern int countAppointments;
-extern sAppointment Calendar[];
-
+extern sAppointment *First, *Last;
 
 #endif //CCAL_DATASTRUCTURE_H
