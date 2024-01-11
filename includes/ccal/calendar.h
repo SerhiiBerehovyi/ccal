@@ -31,8 +31,11 @@ void editAppointment(void);
 
 /*************************************************************************************
 * Funktion:         deleteAppointment
-* Beschreibung:
-*
+* Beschreibung:     Listet alle Termine mit einer Nummer auf und fragt den Benutzer
+ *                  mittels int askForNumber(char *prompt) aus tools.h nach
+ *                  Eingabe einer Zahl. Der under dieser Zahl stehende Termin wird
+ *                  geloescht.
+ *
 * Parameter:        -
 * Ergebnis:         -
 *************************************************************************************/
