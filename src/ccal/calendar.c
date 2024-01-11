@@ -60,7 +60,55 @@ void editAppointment(void)
 
 void deleteAppointment(void)
 {
-    printf("TODO: Termin loeschen\n");
+    HOME;
+    CLEAR;
+    printf("Terminliste\n");
+    printLine('-', strlen("Terminliste"));
+
+    if(!countAppointments)
+    {
+        printf("\n%s\n", "Sie haben keine Termine im Kalender.");
+        waitForEnter();
+        return;
+    }
+
+    int i = 0;
+    sAppointment *tmp = First;
+    while(tmp)
+    {
+        i++;
+        printf("%i: ", i);
+        printDate(&tmp->Date);
+        printf(", ");
+        printTime(&tmp->StartTime);
+        printf(": %s\n", tmp->Description);
+
+        tmp = tmp->Next;
+    }
+
+    int answer;
+    SAVE_POSITION;
+    do
+    {
+        RESTORE_POSITION;
+        CLEAR_BELOW;
+        answer = askForNumber("Welchen Termin moechten Sie loeschen (0 fuer Abbrechen) ? ");
+    } while(answer < 0 || answer > countAppointments);
+
+    if(!answer)
+        return;
+
+    i = 1;
+    tmp = First;
+    while(i < answer)
+    {
+        i++;
+        tmp = tmp->Next;
+    }
+
+    removeFromDList(tmp);
+    countAppointments--;
+    printf("\n%s\n", "Der Termin wurde erfolgreich geloescht.");
     waitForEnter();
 }
 
