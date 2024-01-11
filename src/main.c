@@ -73,11 +73,10 @@ int main()
         menuItems[2] = "Termin bearbeiten";
         menuItems[3] = "Termin loeschen";
         menuItems[4] = "Termin suchen";
-        menuItems[5] = "Kalender sortieren";
-        menuItems[6] = "Termine auflisten";
-        menuItems[7] = "Programm beenden";
+        menuItems[5] = "Termine auflisten";
+        menuItems[6] = "Programm beenden";
 
-        int menuChoice = getMenu(menuTitle, menuItems, 7);
+        int menuChoice = getMenu(menuTitle, menuItems, 6);
 
         switch (menuChoice)
         {
@@ -90,8 +89,6 @@ int main()
             case 4:
                 searchAppointment(); break;
             case 5:
-                sortCalendar(); break;
-            case 6:
                 listCalendar(); break;
             default:
                 closeCalendar(); return 0;
