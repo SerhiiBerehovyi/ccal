@@ -381,61 +381,18 @@ int compare_by_duration(sAppointment *first, sAppointment *second)
 
 int compare_by_date_and_time(sAppointment *first, sAppointment *second)
 {
-    if (first->Date.Year > second->Date.Year)
-    {
-        return 1;
-    }
-    else if (first->Date.Year < second->Date.Year)
-    {
-        return -1;
-    }
-    else
-    {
-        if (first->Date.Month > second->Date.Month)
-        {
-            return 1;
-        }
-        else if (first->Date.Month < second->Date.Month)
-        {
-            return -1;
-        }
-        else
-        {
-            if (first->Date.Day > second->Date.Day)
-            {
-                return 1;
-            }
-            else if (first->Date.Day < second->Date.Day)
-            {
-                return -1;
-            }
-            else
-            {
-                if (first->StartTime.Hour > second->StartTime.Hour)
-                {
-                    return 1;
-                }
-                else if (first->StartTime.Hour < second->StartTime.Hour)
-                {
-                    return -1;
-                }
-                else
-                {
-                    if (first->StartTime.Minute > second->StartTime.Minute)
-                    {
-                        return 1;
-                    }
-                    else if (first->StartTime.Minute < second->StartTime.Minute)
-                    {
-                        return -1;
-                    }
-                    else
-                    {
-                        return 0;
-                    }
-                }
-            }
-        }
-    }
+    if (first->Date.Year > second->Date.Year) return 1;
+    if (first->Date.Year < second->Date.Year) return -1;
+    if (first->Date.Month > second->Date.Month) return 1;
+    if (first->Date.Month < second->Date.Month) return -1;
+    if (first->Date.Day > second->Date.Day) return 1;
+    if (first->Date.Day < second->Date.Day) return -1;
+
+    if (first->StartTime.Hour > second->StartTime.Hour) return 1;
+    if (first->StartTime.Hour < second->StartTime.Hour) return -1;
+    if (first->StartTime.Minute > second->StartTime.Minute) return 1;
+    if (first->StartTime.Minute < second->StartTime.Minute) return -1;
+
+    return 0;
 }
 
