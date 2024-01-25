@@ -202,3 +202,13 @@ char *to_lowercase(char *text)
     *lower_text      = '\0';
     return tp;
 }
+
+void printWithEllipsis(char* str, int maxLength){
+    if(strlen(str) > maxLength){
+        char format[20];
+        sprintf(format, "%%.%ds ...", maxLength - 4); // space + ... = 4
+        printf(format, str);
+    } else {
+        printf("%s", str);
+    }
+}

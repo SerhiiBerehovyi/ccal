@@ -124,4 +124,16 @@ char *to_lowercase(char *);
 * Ergebnis:         int                 die von User eingegebene Zahl
 *************************************************************************************/
 int askForNumber(char *prompt);
+
+/******************************************************************************
+ * Die Funktion gibt ein Text bestimmter Laenger auf den Bildschirm aus.
+ * Falls der Text laenger als maxLength ist, werden nur erste
+ * maxLength-4 ausgegeben und " ..." dazugeschrieben.
+ *
+ * input:   char* str:  ein Zeiger auf eine Zeichenkette, die ausgegeben muss
+ *          int maxLength:  die maximale Laenge der Ausgabe.
+ * ***************************************************************************/
+void printWithEllipsis(char* str, int maxLength);
+
+
 #endif //TOOLS_H
