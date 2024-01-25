@@ -16,6 +16,8 @@
 #define LOCATION_MAXLEN 15
 #define DESCRIPTION_MAXLEN 100
 
+#define MAXINDEX 307
+
 #define DATABASE_FILENAME "calendar.xml"
 
 enum eDayOfTheWeek
@@ -50,9 +52,21 @@ typedef struct sAppointment_
     struct sAppointment_ *Prev;
 } sAppointment;
 
+typedef struct sLIE
+{
+    sAppointment *data;
+    struct sLIE *next;
+} sLIEntry; // List-Index Eintrag
+
+typedef struct
+{
+    sLIEntry *first;
+    sLIEntry *last;
+} sHashEntry;
 
 extern int errorCode;
 extern int countAppointments;
 extern sAppointment *First, *Last;
+extern sHashEntry AppIndex[];
 
 #endif //CCAL_DATASTRUCTURE_H

@@ -12,7 +12,9 @@
 #include "../../includes/ccal/sort.h"
 #include "../../includes/ccal/calendar.h"
 #include "../../includes/ccal/list.h"
+#include "../../includes/ccal/search.h"
 
+sHashEntry AppIndex[MAXINDEX];
 
 int errorCode = 0;
 int countAppointments = 0;
@@ -45,6 +47,8 @@ void createAppointment(void)
     newAppointment->Duration = pDuration;
     countAppointments++;
     insertInDList(newAppointment);
+
+    addEntryToHashTable(newAppointment);
 
     printf("\nTermin erfolgreich erstellt.\n");
     waitForEnter();
@@ -106,6 +110,8 @@ void deleteAppointment(void)
         tmp = tmp->Next;
     }
 
+    removeEntryFromHashTable(tmp);
+
     removeFromDList(tmp);
     countAppointments--;
     printf("\n%s\n", "Der Termin wurde erfolgreich geloescht.");
@@ -115,7 +121,47 @@ void deleteAppointment(void)
 
 void searchAppointment(void)
 {
-    printf("TODO: Termin suchen\n");
+    HOME;
+    CLEAR;
+
+    sAppointment* toSearch = malloc(sizeof(sAppointment));
+    if(!toSearch)
+        return;
+
+    sLIEntry* found;
+
+    printf("%s\n", "Geben Sie bitte die Beschreibung des gesuchten Termins ein: ");
+    SAVE_POSITION;
+    do{
+        RESTORE_POSITION;
+        CLEAR_BELOW;
+    }while(!getText("-> ", DESCRIPTION_MAXLEN, &toSearch->Description, 1));
+
+    found = search(AppIndex, compare_by_description, toSearch);
+
+    printf("\nSuchergebnis:\n");
+    printLine('-', 13);
+
+    printf("\n");
+    printLine('=', 60);
+
+    if(!found)
+    {
+        printf("%s \"%s\" %s\n", "Kein Termin mit Beschreibung", toSearch->Description, "gefunden.");
+    }
+    else
+    {
+        sLIEntry* tmp = found;
+        while(tmp)
+        {
+            printDate(&tmp->data->Date);
+            printf(":\n");
+            printLine('-', 15);
+            printAppointment(tmp->data, 0);
+            tmp = tmp->next;
+        }
+    }
+
     waitForEnter();
 }
 
@@ -330,6 +376,7 @@ void closeCalendar()
             waitForEnter();
         }
         freeAppointments();
+        freeHashTable();
     }
     clearScreen();
 }
@@ -458,3 +505,82 @@ int compare_by_date_and_time(sAppointment *first, sAppointment *second)
     return 0;
 }
 
+
+void addEntryToHashTable(sAppointment* appointment)
+{
+    unsigned int index = calcDivisionsrest(appointment->Description);
+    sLIEntry* newEntry = malloc(sizeof(sLIEntry));
+    if(!newEntry)
+        return;
+
+    newEntry->data = appointment;
+    newEntry->next = NULL;
+
+    insertInSList(&AppIndex[index], newEntry);
+}
+
+void removeEntryFromHashTable(sAppointment* appointment)
+{
+    unsigned int index = calcDivisionsrest(appointment->Description);
+    if(!AppIndex[index].first)
+        return;
+
+    sLIEntry* tmp = AppIndex[index].first;
+    while(tmp->data != appointment)
+    {
+        tmp = tmp->next;
+    }
+
+    if(!tmp)
+        return;
+
+    removeFromSList(&AppIndex[index], tmp);
+    free(tmp);
+}
+
+void freeHashTable()
+{
+    for(int i = 0; i < MAXINDEX; i++ )
+    {
+        sLIEntry* tmp = removeFromSList(&AppIndex[i], AppIndex[i].first);
+        if(tmp)
+            free(tmp);
+    }
+}
+
+
+
+void printHashTable(sHashEntry* appIndex)
+{
+    HOME;
+    CLEAR;
+    printf("Hashtabelle\n");
+    printLine('=', 11);
+    printf("\n");
+    printf("Hashwert | Datum          | Uhrzeit | Terminbeschreibung                                   \n");
+    printf("---------|----------------|---------|------------------------------------------------------\n");
+
+    for(int i=0; i < MAXINDEX; i++)
+    {
+        if((appIndex + i)->first)
+        {
+            printf("% 8i", i);
+            sLIEntry *tmp = (appIndex + i)->first;
+            while(tmp)
+            {
+                printf(" | ");
+                printDate(&tmp->data->Date);
+                printf(" |  ");
+                printTime(&tmp->data->StartTime);
+                printf("  | ");
+                printWithEllipsis(tmp->data->Description, DESCRIPTION_MAXLEN);
+                printf("\n");
+                if(tmp->next)
+                    RIGHT(8);
+                tmp = tmp->next;
+            }
+        }
+    }
+    printf("\n");
+    waitForEnter();
+}

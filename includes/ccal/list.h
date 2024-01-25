@@ -35,4 +35,33 @@ void insertInDList(sAppointment *new);
 void removeFromDList(sAppointment *app);
 
 
+/*************************************************************************************
+* Funktion:         insertInSList
+* Beschreibung:     Fügt einen neuen Element in die einfach-verkettete Liste hinzu.
+*
+* Parameter:        sHashEntry *            Zeiger auf den ersten Eintrag der
+ *                                          verketteten Liste
+ *                  sLIEntry *              Zeiger auf den neuen Element, der
+ *                                          eingefügt werden muss.
+*
+* Ergebnis:         1       :   Wenn der neuen Element erfolgreich eingefügt wurde
+ *                  0       :   Andernfalls
+*************************************************************************************/
+int insertInSList(sHashEntry *hashEntry, sLIEntry *new);
+
+
+/*************************************************************************************
+* Funktion:         removeFromSList
+* Beschreibung:     Löscht den Element entry aus der einfach-verketteten Liste.
+*
+* Parameter:        sHashEntry *            Zeiger auf den ersten Eintrag der
+ *                                          verketteten Liste
+ *                  sLIEntry *              Zeiger auf den neuen Element, der
+ *                                          gelöscht werden muss.
+*
+* Ergebnis:         ein Link auf aus der Liste gelöschten Element
+ *                  oder NULL, wenn das Löschen war nicht erfolgreich.
+*************************************************************************************/
+sLIEntry* removeFromSList(sHashEntry *hashEntry, sLIEntry *entry);
+
 #endif //CCAL_LIST_H

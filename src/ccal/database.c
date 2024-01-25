@@ -7,6 +7,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include "../../includes/ccal/datastructure.h"
+#include "../../includes/ccal/calendar.h"
 #include "../../includes/ccal/database.h"
 #include "../../includes/ccal/datetime.h"
 #include "../../includes/tools/tools.h"
@@ -120,6 +121,7 @@ int loadCalendar()
                 {
                     countAppointments++;
                     insertInDList(loadedAppointment);
+                    addEntryToHashTable(loadedAppointment);
                 }
                 else
                 {

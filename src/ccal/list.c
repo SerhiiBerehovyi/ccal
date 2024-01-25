@@ -60,3 +60,63 @@ void removeFromDList(sAppointment *app)
 
     free(app);
 }
+
+
+int insertInSList(sHashEntry *hashEntry, sLIEntry *new)
+{
+    if(!new || !hashEntry)
+    {
+        return 0;
+    }
+
+    new->next = NULL;
+
+    if(!hashEntry->first)
+    {
+        hashEntry->first = new;
+        hashEntry->last = new;
+        return 1;
+    }
+    else
+    {
+        hashEntry->last->next = new;
+        hashEntry->last = new;
+        return 1;
+    }
+}
+
+sLIEntry* removeFromSList(sHashEntry *hashEntry, sLIEntry *entry)
+{
+    if(!hashEntry || !entry)
+    {
+        return NULL;
+    }
+
+    sLIEntry *tmp = NULL;
+    if(hashEntry->first == entry)
+    {
+        if(hashEntry->first == hashEntry->last)
+        {
+            hashEntry->last = NULL;
+        }
+        tmp = hashEntry->first;
+        hashEntry->first = hashEntry->first->next;
+        return tmp;
+    }
+
+    sLIEntry *prev = hashEntry->first;
+    while(prev)
+    {
+        if(prev->next == entry)
+        {
+            tmp = prev->next;
+            prev->next = entry->next;
+            if(prev->next == hashEntry->last)
+                hashEntry->last = prev;
+            return tmp;
+        }
+        prev = prev->next;
+    }
+
+    return NULL;
+}

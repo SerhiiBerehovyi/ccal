@@ -168,5 +168,48 @@ int compare_by_duration(sAppointment *, sAppointment *);
 *************************************************************************************/
 int compare_by_date_and_time(sAppointment *, sAppointment *);
 
+/*************************************************************************************
+* Funktion:         addEntryToHashTable
+* Beschreibung:     fügt einen neuen Termin in die bereits erstellte Hash-Tabelle
+ *                  AppIndex.
+*
+* Parameter:        sAppointment *       Termin zum einfügen
+*
+* Ergebnis:        -
+*************************************************************************************/
+void addEntryToHashTable(sAppointment * appointment);
+
+
+/*************************************************************************************
+* Funktion:         removeEntryFromHashTable
+* Beschreibung:     Löscht den ersten des Termins mit der in Parameter übergebenen
+ *                  Beschreibung.
+*
+* Parameter:        sAppointment *       Termin, dessen Beschreibung ist gesucht.
+
+* Ergebnis:         -
+*************************************************************************************/
+void removeEntryFromHashTable(sAppointment* appointment);
+
+
+/*************************************************************************************
+* Funktion:         printHashTable
+* Beschreibung:     Gibt die Hashtabelle auf den Bildschirm aus.
+*
+* Parameter:        sHashEntry*         die Tabelle zum Ausgeben.
+*
+* Ergebnis:         -
+*************************************************************************************/
+void printHashTable(sHashEntry* appIndex);
+
+/*************************************************************************************
+* Funktion:         freeHashTable
+* Beschreibung:     Gibt alle für sLIEntry reservierten Speicherbereiche wieder frei.
+*
+* Parameter:        -
+*
+* Ergebnis:         -
+*************************************************************************************/
+void freeHashTable();
 
 #endif //CCAL_CALENDAR_H

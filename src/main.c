@@ -6,6 +6,7 @@
 #include "../includes/ccal/calendar.h"
 #include "../includes/ccal/database.h"
 #include "../includes/ccal/menu.h"
+#include "../includes/ccal/search.h"
 
 
 int main()
@@ -74,9 +75,10 @@ int main()
         menuItems[3] = "Termin loeschen";
         menuItems[4] = "Termin suchen";
         menuItems[5] = "Termine auflisten";
-        menuItems[6] = "Programm beenden";
+        menuItems[6] = "Hash Tabelle zeigen";
+        menuItems[7] = "Programm beenden";
 
-        int menuChoice = getMenu(menuTitle, menuItems, 6);
+        int menuChoice = getMenu(menuTitle, menuItems, 7);
 
         switch (menuChoice)
         {
@@ -90,6 +92,8 @@ int main()
                 searchAppointment(); break;
             case 5:
                 listCalendar(); break;
+            case 6:
+                printHashTable(AppIndex); break;
             default:
                 closeCalendar(); return 0;
         }
